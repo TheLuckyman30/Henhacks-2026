@@ -1,0 +1,11 @@
+{
+  "name": "@repo/db-types",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}
