@@ -61,6 +61,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           />
         </TanStackQueryProvider>
         <Scripts />
+        <section className="w-full h-[20vh] bg-[#6c3b27d7]"></section>
       </body>
     </html>
   )
