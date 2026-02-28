@@ -2,25 +2,31 @@ import { Link } from '@tanstack/react-router'
 import './navbar.css'
 
 const getNavItems = () => {
-  return [{ name: 'Home', link: '/' }]
+  return [
+    { name: 'Home', link: '/' },
+    { name: 'Community', link: '/community' },
+    { name: 'Listings', link: '/listings' },
+    { name: 'My Profile', link: '/myProfile' },
+    { name: 'Login', link: '/' },
+  ]
 }
 
 export function Navbar() {
   const navItems = getNavItems()
 
   return (
-    <div className="flex items-center justify-between w-full absolute mt-[5vh] pl-[8vh] z-20">
-      <div className="absolute left-[50%] gap-[5vw] rounded-[90vh] bg-white min-h-[8vh] max-h-[10vh] min-w-[40%] max-w-[60%] items-center justify-center flex text-[#6c3b27d7] transform -translate-x-[50%]">
+    <div className="absolute top-[5vh] left-0 w-full max-h-15 flex justify-center z-20">
+      <nav className="flex items-center justify-between px-8 py-3 rounded-lg bg-white shadow-md text-[#6c3b27d7] min-w-1/2 z-25">
         {navItems.map((item, index) => (
           <Link
             to={item.link}
-            className="bg-white hover:bg-sky-100 rounded-md p-5 buttonJump"
+            className="hover:bg-sky-100 rounded-md px-5 py-2 transition-all duration-200 z-25"
             key={index}
           >
-            <span className="relative group-hover:text-white">{item.name}</span>
+            {item.name}
           </Link>
         ))}
-      </div>
+      </nav>
     </div>
   )
 }
