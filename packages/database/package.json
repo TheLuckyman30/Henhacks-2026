@@ -1,9 +1,11 @@
 {
-  "name": "database",
+  "name": "@repo/database",
   "scripts": {
+    "dev": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "type": "module",
+  "main": "./dist/client.js",
+  "types": "./dist/client.d.ts",
   "devDependencies": {
     "@types/pg": "^8.18.0",
     "prisma": "^7.4.2"
