@@ -28,7 +28,6 @@ export class PostingService {
       Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
     const rad = 3958.8;
     const c = 2 * Math.asin(Math.sqrt(a));
-    console.log(rad * c);
     return rad * c;
   }
 
@@ -46,7 +45,7 @@ export class PostingService {
         user: { select: { id: true, name: true } },
         title: true,
         description: true,
-        claimed: true,
+        status: true,
         location: true,
         address: true,
         category: true,
@@ -61,7 +60,8 @@ export class PostingService {
 
     const filteredPostings = postings.filter(
       (p) =>
-        this.calcDistance(p.location, givenLocation) <= findPostingsDto.range,
+        this.calcDistance(p.location, givenLocation) <= 100 &&
+        p.status !== 'Completed',
     );
 
     if (!filteredPostings) {
@@ -90,7 +90,7 @@ export class PostingService {
         id: true,
         title: true,
         description: true,
-        claimed: true,
+        status: true,
         category: true,
         tags: true,
         createdAt: true,

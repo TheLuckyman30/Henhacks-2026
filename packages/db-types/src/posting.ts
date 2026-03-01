@@ -3,7 +3,6 @@ import { UserOut } from "./user";
 
 export const FindPostings = z.object({
   zipcode: z.string(),
-  range: z.int(),
 });
 export type FindPostings = z.infer<typeof FindPostings>;
 
@@ -11,7 +10,7 @@ export const MyPostingOut = z.object({
   id: z.cuid(),
   title: z.string(),
   description: z.string(),
-  claimed: z.boolean(),
+  status: z.string(),
   category: z.string(),
   tags: z.array(z.string()),
   createdAt: z.iso.datetime(),
@@ -25,7 +24,7 @@ export const PostingOut = z.object({
   description: z.string(),
   distance: z.int(),
   address: z.string(),
-  claimed: z.boolean(),
+  status: z.string(),
   category: z.string(),
   tags: z.array(z.string()),
   createdAt: z.iso.datetime(),
@@ -51,7 +50,7 @@ export const UpdatePosting = z.object({
   id: z.cuid(),
   title: z.string().optional(),
   description: z.string().optional(),
-  claimed: z.boolean().optional(),
+  status: z.string().optional(),
   address: z.string().optional(),
   location: z.array(z.float64()).optional(),
   category: z.string().optional(),

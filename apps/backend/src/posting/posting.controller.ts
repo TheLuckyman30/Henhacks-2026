@@ -1,11 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { PostingService } from './posting.service';
-import {
-  CreatePosting,
-  FindPostings,
-  MyPostingOut,
-  PostingOut,
-} from '@repo/db-types';
+import { CreatePosting, MyPostingOut, PostingOut } from '@repo/db-types';
 
 @Controller('posting')
 export class PostingController {
@@ -14,11 +9,9 @@ export class PostingController {
   @Get()
   findPostingsInRange(
     @Query('zipcode') zipcode: string,
-    @Query('range') range: number,
   ): Promise<PostingOut[]> {
     return this.postingService.findPostingsInRange({
       zipcode,
-      range: range,
     });
   }
 

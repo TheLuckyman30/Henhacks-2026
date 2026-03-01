@@ -7,7 +7,7 @@ import '../listing.css'
 import { useState } from 'react'
 import { ListingFormModal } from '#/components/ListingForm/ListingForm.tsx'
 import { ListingCard } from '#/components/ListingCard/ListingCard'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { PostingOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
 
@@ -15,20 +15,31 @@ export const Route = createFileRoute('/listings/')({
   component: RouteComponent,
 })
 
+const CATEGORIES = ['Glass', 'Plastic', 'Fabric', 'Wood', 'Metal', 'Other']
+
 function RouteComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [category, setCategory] = useState(CATEGORIES[0])
   const [zipcode, setZipcode] = useState('19711')
   const [radius, setRadius] = useState(10)
+  const [available, setAvailable] = useState('All')
+  const qc = useQueryClient()
 
   const { data, isLoading } = useQuery<PostingOut[]>({
     queryKey: ['postings'],
     queryFn: () =>
       fetcher<PostingOut[]>({
-        endpoint: `/posting?zipcode=${zipcode}&range=${radius}`,
+        endpoint: `/posting?zipcode=${zipcode}`,
       }),
     refetchOnWindowFocus: false,
   })
-  const postings = data ?? []
+  const postings =
+    data?.filter(
+      (p) =>
+        p.distance <= radius &&
+        p.category === category &&
+        (available === 'All' || p.status === available),
+    ) ?? []
 
   if (isLoading) return <div>Loading...</div>
 
@@ -81,13 +92,16 @@ function RouteComponent() {
                   <label className="block text-sm text-gray-600 mb-2">
                     Category
                   </label>
-                  <select className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]">
-                    <option>All Categories</option>
-                    <option>Glass</option>
-                    <option>Plastic</option>
-                    <option>Paper</option>
-                    <option>Art Supplies</option>
-                    <option>Fabric</option>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
+                  >
+                    {CATEGORIES.map((cat, index) => (
+                      <option key={index} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -135,14 +149,22 @@ function RouteComponent() {
                   <label className="block text-sm text-gray-600 mb-2">
                     Availability
                   </label>
-                  <select className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]">
-                    <option>All</option>
-                    <option>Available</option>
-                    <option>Pending</option>
+                  <select
+                    onChange={(e) => setAvailable(e.target.value)}
+                    className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
+                  >
+                    <option value={'All'}>All</option>
+                    <option value={'Available'}>Available</option>
+                    <option value={'Pending'}>Pending</option>
                   </select>
                 </div>
 
-                <button className="w-full bg-[#6c3b27] text-white py-2 rounded-xl shadow-md hover:scale-105 transition">
+                <button
+                  onClick={() =>
+                    qc.invalidateQueries({ queryKey: ['postings'] })
+                  }
+                  className="w-full bg-[#6c3b27] text-white py-2 rounded-xl shadow-md hover:scale-105 transition"
+                >
                   Apply Filters
                 </button>
               </div>
@@ -214,7 +236,7 @@ function RouteComponent() {
                   <ListingCard
                     category={posting.category}
                     title={posting.title}
-                    claimed={posting.claimed}
+                    status={posting.status}
                     description={posting.description}
                     distance={posting.distance}
                   />
