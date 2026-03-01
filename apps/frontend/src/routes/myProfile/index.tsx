@@ -67,46 +67,40 @@ function RouteComponent() {
               </div>
 
               <div>
-                <p className="text-4xl font-bold text-[#606c38]">42kg</p>
-                <p className="text-gray-600">Waste Diverted</p>
+                <p className="text-4xl font-bold text-[#606c38]">5</p>
+                <p className="text-gray-600">Events Attended</p>
               </div>
 
               <div>
-                <p className="text-4xl font-bold text-[#606c38]">Gold</p>
-                <p className="text-gray-600">Eco Badge</p>
+                <p className="text-4xl font-bold text-[#606c38]">4.8/5</p>
+                <p className="text-gray-600">Eco Rating</p>
               </div>
             </div>
           </div>
         </section>
         <section className="w-5/6">
           <div className="bg-white rounded-2xl shadow-xl p-10">
-            <h2 className="text-2xl font-bold text-[#6c3b27] mb-8">
-              Your Active Listings 📦
-            </h2>
+            <div>
+              <h2 className="text-2xl font-bold text-[#6c3b27] mb-8">
+                Your Active Listings 📦
+              </h2>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-[#fefae0] rounded-xl p-6 shadow-md">
-                <h3 className="font-semibold text-[#6c3b27]">
-                  Glass Jars (12)
-                </h3>
-                <p className="text-gray-600 mt-2">
-                  Perfect for storage or crafts.
-                </p>
-                <p className="text-sm mt-4 text-[#606c38]">Available</p>
-              </div>
-
-              <div className="bg-[#fefae0] rounded-xl p-6 shadow-md">
-                <h3 className="font-semibold text-[#6c3b27]">
-                  Cardboard Sheets
-                </h3>
-                <p className="text-gray-600 mt-2">Large moving box scraps.</p>
-                <p className="text-sm mt-4 text-yellow-600">Pending Pickup</p>
-              </div>
-
-              <div className="bg-[#fefae0] rounded-xl p-6 shadow-md">
-                <h3 className="font-semibold text-[#6c3b27]">Fabric Scraps</h3>
-                <p className="text-gray-600 mt-2">Assorted colors.</p>
-                <p className="text-sm mt-4 text-[#606c38]">Available</p>
+              <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                {[1, 2, 3, 4, 5].map((item) => (
+                  <div
+                    key={item}
+                    className="min-w-[250px] bg-white rounded-2xl shadow-lg p-4 border border-[#dda15e]/30 snap-start hover:scale-105 transition"
+                  >
+                    <div className="h-32 bg-gray-200 rounded-xl mb-3"></div>
+                    <h4 className="text-lg font-medium text-[#6c3b27]">
+                      Fabric Scraps
+                    </h4>
+                    <p className="text-sm text-gray-600 truncate">
+                      Assorted cotton pieces for crafts.
+                    </p>
+                    <p className="text-sm mt-4 text-green-800">Available</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

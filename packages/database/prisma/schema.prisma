@@ -27,6 +27,8 @@ model Posting {
   title       String
   description String
   address     String
+  category    String
+  tags        String[]
   location    Float[]
   claimed     Boolean  @default(false)
   createdAt   DateTime @default(now())

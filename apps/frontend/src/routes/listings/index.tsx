@@ -2,6 +2,7 @@
 import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 import jars from '../../../public/images/jars.jpg'
+import '../listing.css'
 
 import { useState } from 'react'
 import { ListingFormModal } from '#/components/ListingForm/ListingForm.tsx'
@@ -12,6 +13,8 @@ export const Route = createFileRoute('/listings/')({
 
 function RouteComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [zipcode, setZipcode] = useState('')
+  const [radius, setRadius] = useState(10)
 
   return (
     <div className="relative w-full min-h-screen flex flex-col bg-container">
@@ -44,17 +47,18 @@ function RouteComponent() {
         <section className="bg-white rounded-2xl shadow-xl p-12 w-5/6">
           <div className="flex flex-col lg:flex-row gap-10">
             {/* ================= FILTER SIDEBAR ================= */}
-            <aside className="lg:w-1/4 bg-[#fefae0] rounded-2xl p-6 shadow-md space-y-6">
+            <aside className="lg:w-1/4 bg-[#fefae0] rounded-2xl p-6 shadow-md space-y-8">
               <h3 className="text-xl font-semibold text-[#6c3b27]">
                 Filters 🌱
               </h3>
 
-              <div className="space-y-4">
+              <div className="space-y-6">
+                {/* Category */}
                 <div>
                   <label className="block text-sm text-gray-600 mb-2">
                     Category
                   </label>
-                  <select className="w-full px-4 py-2 rounded-xl border border-[#dda15e]">
+                  <select className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]">
                     <option>All Categories</option>
                     <option>Glass</option>
                     <option>Plastic</option>
@@ -64,23 +68,51 @@ function RouteComponent() {
                   </select>
                 </div>
 
+                {/* ZIP Code */}
                 <div>
                   <label className="block text-sm text-gray-600 mb-2">
-                    Distance
+                    ZIP Code
                   </label>
-                  <select className="w-full px-4 py-2 rounded-xl border border-[#dda15e]">
-                    <option>Any Distance</option>
-                    <option>Within 1 mile</option>
-                    <option>Within 5 miles</option>
-                    <option>Within 10 miles</option>
-                  </select>
+                  <input
+                    type="text"
+                    value={zipcode}
+                    onChange={(e) => setZipcode(e.target.value)}
+                    placeholder="Enter ZIP code"
+                    className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
+                  />
                 </div>
 
+                {/* Radius Slider */}
+                <div>
+                  <label className="block text-sm text-gray-600 mb-2">
+                    Radius:{' '}
+                    <span className="font-medium text-[#6c3b27]">
+                      {radius} miles
+                    </span>
+                  </label>
+
+                  <input
+                    type="range"
+                    min="1"
+                    max="50"
+                    step="1"
+                    value={radius}
+                    onChange={(e) => setRadius(Number(e.target.value))}
+                    className="w-full accent-[#bc6c25] cursor-pointer"
+                  />
+
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>1 mi</span>
+                    <span>50 mi</span>
+                  </div>
+                </div>
+
+                {/* Availability */}
                 <div>
                   <label className="block text-sm text-gray-600 mb-2">
                     Availability
                   </label>
-                  <select className="w-full px-4 py-2 rounded-xl border border-[#dda15e]">
+                  <select className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]">
                     <option>All</option>
                     <option>Available</option>
                     <option>Pending</option>
@@ -117,7 +149,39 @@ function RouteComponent() {
                 onClose={() => setIsModalOpen(false)}
               />
 
+              <section className="w-full mx-auto mt-10 space-y-10">
+                {/* ================= YOUR LISTINGS ================= */}
+                <div>
+                  <h3 className="text-2xl font-semibold text-[#6c3b27] mb-4">
+                    Your Listings
+                  </h3>
+
+                  <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                    {[1, 2, 3, 4, 5].map((item) => (
+                      <div
+                        key={item}
+                        className="min-w-[250px] bg-white rounded-2xl shadow-lg p-4 border border-[#dda15e]/30 snap-start hover:scale-105 transition"
+                      >
+                        <div className="h-32 bg-gray-200 rounded-xl mb-3"></div>
+                        <h4 className="text-lg font-medium text-[#6c3b27]">
+                          Fabric Scraps
+                        </h4>
+                        <p className="text-sm text-gray-600 truncate">
+                          Assorted cotton pieces for crafts.
+                        </p>
+                        <p className="text-sm mt-4 text-green-800">Available</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
               {/* Listings Grid */}
+
+              <h3 className="text-2xl font-semibold text-[#6c3b27] mb-4">
+                Listings near you
+              </h3>
+
               <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {/* Listing Card */}
                 <div className="bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden hover:scale-[1.02] transition">
