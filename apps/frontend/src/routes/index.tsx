@@ -1,13 +1,20 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Navbar } from '../components/navbar'
-import CommunityVid from '../../public/images/Community1.mov'
+import CommunityVid from '../images/Community1.mov'
 import { useState } from 'react'
 import { PreferenceForm } from '#/components/PreferForm/PreferForm.tsx'
+import { useQuery } from '@tanstack/react-query'
+import type { UserOut } from '@repo/db-types'
+import { fetcher } from '#/utils/fetcher'
 
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const user = useQuery<UserOut>({
+    queryFn: () => fetcher<UserOut>({ endpoint: '/user/me' }),
+    queryKey: ['user', 'me'],
+  })
 
   return (
     <div className="w-full min-h-screen bg-container flex flex-col">
@@ -46,9 +53,10 @@ function App() {
                 <br></br>
                 <p className="text-lg text-white/90 ">
                   A community-powered recycling network that turns everyday
-                  waste into opportunity. Share any unwanted material with your
-                  neighbors who can reuse them, and make the community and
-                  planet stronger- for free!
+                  waste into opportunity. Share any unwanted material that
+                  wouldve gone in your trashbin or recycling with your neighbors
+                  who can reuse them, and make the community and planet
+                  stronger- for free!
                 </p>
 
                 <div className="flex gap-4">

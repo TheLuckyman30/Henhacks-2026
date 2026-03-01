@@ -9,77 +9,89 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProtectedRoutesRouteRouteImport } from './routes/_protected-routes/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MyProfileIndexRouteImport } from './routes/myProfile/index'
-import { Route as ListingsIndexRouteImport } from './routes/listings/index'
-import { Route as CreateListingIndexRouteImport } from './routes/createListing/index'
-import { Route as CommunityIndexRouteImport } from './routes/community/index'
-import { Route as ListingsListingIDRouteImport } from './routes/listings/$listingID'
-import { Route as CommunityEventListIDRouteImport } from './routes/community/$eventListID'
+import { Route as ProtectedRoutesMyProfileIndexRouteImport } from './routes/_protected-routes/myProfile/index'
+import { Route as ProtectedRoutesListingsIndexRouteImport } from './routes/_protected-routes/listings/index'
+import { Route as ProtectedRoutesCreateListingIndexRouteImport } from './routes/_protected-routes/createListing/index'
+import { Route as ProtectedRoutesCommunityIndexRouteImport } from './routes/_protected-routes/community/index'
+import { Route as ProtectedRoutesListingsListingIDRouteImport } from './routes/_protected-routes/listings/$listingID'
+import { Route as ProtectedRoutesCommunityEventListIDRouteImport } from './routes/_protected-routes/community/$eventListID'
 
+const ProtectedRoutesRouteRoute = ProtectedRoutesRouteRouteImport.update({
+  id: '/_protected-routes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MyProfileIndexRoute = MyProfileIndexRouteImport.update({
-  id: '/myProfile/',
-  path: '/myProfile/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ListingsIndexRoute = ListingsIndexRouteImport.update({
-  id: '/listings/',
-  path: '/listings/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CreateListingIndexRoute = CreateListingIndexRouteImport.update({
-  id: '/createListing/',
-  path: '/createListing/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunityIndexRoute = CommunityIndexRouteImport.update({
-  id: '/community/',
-  path: '/community/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ListingsListingIDRoute = ListingsListingIDRouteImport.update({
-  id: '/listings/$listingID',
-  path: '/listings/$listingID',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunityEventListIDRoute = CommunityEventListIDRouteImport.update({
-  id: '/community/$eventListID',
-  path: '/community/$eventListID',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const ProtectedRoutesMyProfileIndexRoute =
+  ProtectedRoutesMyProfileIndexRouteImport.update({
+    id: '/myProfile/',
+    path: '/myProfile/',
+    getParentRoute: () => ProtectedRoutesRouteRoute,
+  } as any)
+const ProtectedRoutesListingsIndexRoute =
+  ProtectedRoutesListingsIndexRouteImport.update({
+    id: '/listings/',
+    path: '/listings/',
+    getParentRoute: () => ProtectedRoutesRouteRoute,
+  } as any)
+const ProtectedRoutesCreateListingIndexRoute =
+  ProtectedRoutesCreateListingIndexRouteImport.update({
+    id: '/createListing/',
+    path: '/createListing/',
+    getParentRoute: () => ProtectedRoutesRouteRoute,
+  } as any)
+const ProtectedRoutesCommunityIndexRoute =
+  ProtectedRoutesCommunityIndexRouteImport.update({
+    id: '/community/',
+    path: '/community/',
+    getParentRoute: () => ProtectedRoutesRouteRoute,
+  } as any)
+const ProtectedRoutesListingsListingIDRoute =
+  ProtectedRoutesListingsListingIDRouteImport.update({
+    id: '/listings/$listingID',
+    path: '/listings/$listingID',
+    getParentRoute: () => ProtectedRoutesRouteRoute,
+  } as any)
+const ProtectedRoutesCommunityEventListIDRoute =
+  ProtectedRoutesCommunityEventListIDRouteImport.update({
+    id: '/community/$eventListID',
+    path: '/community/$eventListID',
+    getParentRoute: () => ProtectedRoutesRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/community/$eventListID': typeof CommunityEventListIDRoute
-  '/listings/$listingID': typeof ListingsListingIDRoute
-  '/community/': typeof CommunityIndexRoute
-  '/createListing/': typeof CreateListingIndexRoute
-  '/listings/': typeof ListingsIndexRoute
-  '/myProfile/': typeof MyProfileIndexRoute
+  '/community/$eventListID': typeof ProtectedRoutesCommunityEventListIDRoute
+  '/listings/$listingID': typeof ProtectedRoutesListingsListingIDRoute
+  '/community/': typeof ProtectedRoutesCommunityIndexRoute
+  '/createListing/': typeof ProtectedRoutesCreateListingIndexRoute
+  '/listings/': typeof ProtectedRoutesListingsIndexRoute
+  '/myProfile/': typeof ProtectedRoutesMyProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/community/$eventListID': typeof CommunityEventListIDRoute
-  '/listings/$listingID': typeof ListingsListingIDRoute
-  '/community': typeof CommunityIndexRoute
-  '/createListing': typeof CreateListingIndexRoute
-  '/listings': typeof ListingsIndexRoute
-  '/myProfile': typeof MyProfileIndexRoute
+  '/community/$eventListID': typeof ProtectedRoutesCommunityEventListIDRoute
+  '/listings/$listingID': typeof ProtectedRoutesListingsListingIDRoute
+  '/community': typeof ProtectedRoutesCommunityIndexRoute
+  '/createListing': typeof ProtectedRoutesCreateListingIndexRoute
+  '/listings': typeof ProtectedRoutesListingsIndexRoute
+  '/myProfile': typeof ProtectedRoutesMyProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/community/$eventListID': typeof CommunityEventListIDRoute
-  '/listings/$listingID': typeof ListingsListingIDRoute
-  '/community/': typeof CommunityIndexRoute
-  '/createListing/': typeof CreateListingIndexRoute
-  '/listings/': typeof ListingsIndexRoute
-  '/myProfile/': typeof MyProfileIndexRoute
+  '/_protected-routes': typeof ProtectedRoutesRouteRouteWithChildren
+  '/_protected-routes/community/$eventListID': typeof ProtectedRoutesCommunityEventListIDRoute
+  '/_protected-routes/listings/$listingID': typeof ProtectedRoutesListingsListingIDRoute
+  '/_protected-routes/community/': typeof ProtectedRoutesCommunityIndexRoute
+  '/_protected-routes/createListing/': typeof ProtectedRoutesCreateListingIndexRoute
+  '/_protected-routes/listings/': typeof ProtectedRoutesListingsIndexRoute
+  '/_protected-routes/myProfile/': typeof ProtectedRoutesMyProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -103,26 +115,29 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/community/$eventListID'
-    | '/listings/$listingID'
-    | '/community/'
-    | '/createListing/'
-    | '/listings/'
-    | '/myProfile/'
+    | '/_protected-routes'
+    | '/_protected-routes/community/$eventListID'
+    | '/_protected-routes/listings/$listingID'
+    | '/_protected-routes/community/'
+    | '/_protected-routes/createListing/'
+    | '/_protected-routes/listings/'
+    | '/_protected-routes/myProfile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CommunityEventListIDRoute: typeof CommunityEventListIDRoute
-  ListingsListingIDRoute: typeof ListingsListingIDRoute
-  CommunityIndexRoute: typeof CommunityIndexRoute
-  CreateListingIndexRoute: typeof CreateListingIndexRoute
-  ListingsIndexRoute: typeof ListingsIndexRoute
-  MyProfileIndexRoute: typeof MyProfileIndexRoute
+  ProtectedRoutesRouteRoute: typeof ProtectedRoutesRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_protected-routes': {
+      id: '/_protected-routes'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRoutesRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -130,59 +145,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/myProfile/': {
-      id: '/myProfile/'
+    '/_protected-routes/myProfile/': {
+      id: '/_protected-routes/myProfile/'
       path: '/myProfile'
       fullPath: '/myProfile/'
-      preLoaderRoute: typeof MyProfileIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedRoutesMyProfileIndexRouteImport
+      parentRoute: typeof ProtectedRoutesRouteRoute
     }
-    '/listings/': {
-      id: '/listings/'
+    '/_protected-routes/listings/': {
+      id: '/_protected-routes/listings/'
       path: '/listings'
       fullPath: '/listings/'
-      preLoaderRoute: typeof ListingsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedRoutesListingsIndexRouteImport
+      parentRoute: typeof ProtectedRoutesRouteRoute
     }
-    '/createListing/': {
-      id: '/createListing/'
+    '/_protected-routes/createListing/': {
+      id: '/_protected-routes/createListing/'
       path: '/createListing'
       fullPath: '/createListing/'
-      preLoaderRoute: typeof CreateListingIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedRoutesCreateListingIndexRouteImport
+      parentRoute: typeof ProtectedRoutesRouteRoute
     }
-    '/community/': {
-      id: '/community/'
+    '/_protected-routes/community/': {
+      id: '/_protected-routes/community/'
       path: '/community'
       fullPath: '/community/'
-      preLoaderRoute: typeof CommunityIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedRoutesCommunityIndexRouteImport
+      parentRoute: typeof ProtectedRoutesRouteRoute
     }
-    '/listings/$listingID': {
-      id: '/listings/$listingID'
+    '/_protected-routes/listings/$listingID': {
+      id: '/_protected-routes/listings/$listingID'
       path: '/listings/$listingID'
       fullPath: '/listings/$listingID'
-      preLoaderRoute: typeof ListingsListingIDRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedRoutesListingsListingIDRouteImport
+      parentRoute: typeof ProtectedRoutesRouteRoute
     }
-    '/community/$eventListID': {
-      id: '/community/$eventListID'
+    '/_protected-routes/community/$eventListID': {
+      id: '/_protected-routes/community/$eventListID'
       path: '/community/$eventListID'
       fullPath: '/community/$eventListID'
-      preLoaderRoute: typeof CommunityEventListIDRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedRoutesCommunityEventListIDRouteImport
+      parentRoute: typeof ProtectedRoutesRouteRoute
     }
   }
 }
 
+interface ProtectedRoutesRouteRouteChildren {
+  ProtectedRoutesCommunityEventListIDRoute: typeof ProtectedRoutesCommunityEventListIDRoute
+  ProtectedRoutesListingsListingIDRoute: typeof ProtectedRoutesListingsListingIDRoute
+  ProtectedRoutesCommunityIndexRoute: typeof ProtectedRoutesCommunityIndexRoute
+  ProtectedRoutesCreateListingIndexRoute: typeof ProtectedRoutesCreateListingIndexRoute
+  ProtectedRoutesListingsIndexRoute: typeof ProtectedRoutesListingsIndexRoute
+  ProtectedRoutesMyProfileIndexRoute: typeof ProtectedRoutesMyProfileIndexRoute
+}
+
+const ProtectedRoutesRouteRouteChildren: ProtectedRoutesRouteRouteChildren = {
+  ProtectedRoutesCommunityEventListIDRoute:
+    ProtectedRoutesCommunityEventListIDRoute,
+  ProtectedRoutesListingsListingIDRoute: ProtectedRoutesListingsListingIDRoute,
+  ProtectedRoutesCommunityIndexRoute: ProtectedRoutesCommunityIndexRoute,
+  ProtectedRoutesCreateListingIndexRoute:
+    ProtectedRoutesCreateListingIndexRoute,
+  ProtectedRoutesListingsIndexRoute: ProtectedRoutesListingsIndexRoute,
+  ProtectedRoutesMyProfileIndexRoute: ProtectedRoutesMyProfileIndexRoute,
+}
+
+const ProtectedRoutesRouteRouteWithChildren =
+  ProtectedRoutesRouteRoute._addFileChildren(ProtectedRoutesRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CommunityEventListIDRoute: CommunityEventListIDRoute,
-  ListingsListingIDRoute: ListingsListingIDRoute,
-  CommunityIndexRoute: CommunityIndexRoute,
-  CreateListingIndexRoute: CreateListingIndexRoute,
-  ListingsIndexRoute: ListingsIndexRoute,
-  MyProfileIndexRoute: MyProfileIndexRoute,
+  ProtectedRoutesRouteRoute: ProtectedRoutesRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

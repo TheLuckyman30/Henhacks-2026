@@ -1,7 +1,7 @@
 import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/myProfile/')({
+export const Route = createFileRoute('/_protected-routes/myProfile/')({
   component: RouteComponent,
 })
 
@@ -15,9 +15,9 @@ function RouteComponent() {
 
       <main className="flex-1 flex flex-col mt-20 items-center pt-20 py-20 space-y-16">
         <section className="w-5/6">
-          <div className="relative h-[280px] rounded-2xl shadow-xl overflow-hidden">
+          <div className="relative h-70 rounded-2xl shadow-xl overflow-hidden">
             {/* Banner Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
 
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/30"></div>
@@ -89,7 +89,7 @@ function RouteComponent() {
                 {[1, 2, 3, 4, 5].map((item) => (
                   <div
                     key={item}
-                    className="min-w-[250px] bg-white rounded-2xl shadow-lg p-4 border border-[#dda15e]/30 snap-start hover:scale-105 transition"
+                    className="min-w-62.5 bg-white rounded-2xl shadow-lg p-4 border border-[#dda15e]/30 snap-start hover:scale-105 transition"
                   >
                     <div className="h-32 bg-gray-200 rounded-xl mb-3"></div>
                     <h4 className="text-lg font-medium text-[#6c3b27]">

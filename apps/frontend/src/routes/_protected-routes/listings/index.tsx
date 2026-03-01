@@ -1,8 +1,7 @@
-'use client'
 import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 
-import '../listing.css'
+import './listing.css'
 
 import { useState } from 'react'
 import { ListingFormModal } from '#/components/ListingForm/ListingForm.tsx'
@@ -10,8 +9,9 @@ import { ListingCard } from '#/components/ListingCard/ListingCard'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { PostingOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
+import { useUserStore } from '#/utils/user-store'
 
-export const Route = createFileRoute('/listings/')({
+export const Route = createFileRoute('/_protected-routes/listings/')({
   component: RouteComponent,
 })
 
@@ -20,9 +20,9 @@ const CATEGORIES = ['Glass', 'Plastic', 'Fabric', 'Wood', 'Metal', 'Other']
 function RouteComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [category, setCategory] = useState(CATEGORIES[0])
-  const [zipcode, setZipcode] = useState('19711')
   const [radius, setRadius] = useState(10)
   const [available, setAvailable] = useState('All')
+  const { zipcode, setZipcode } = useUserStore()
   const qc = useQueryClient()
 
   const { data, isLoading } = useQuery<PostingOut[]>({
@@ -55,9 +55,9 @@ function RouteComponent() {
         {/* Page Title Section */}
 
         <section className="w-full">
-          <div className="relative h-[360px] shadow-xl overflow-hidden">
+          <div className="relative h-90 shadow-xl overflow-hidden">
             {/* Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
             <div className="absolute inset-0 bg-black/30"></div>
 
             <div className="relative z-10 h-full flex flex-col justify-between items-center text-white text-center px-6 py-8">
@@ -205,7 +205,7 @@ function RouteComponent() {
                     {[1, 2, 3, 4, 5].map((item) => (
                       <div
                         key={item}
-                        className="min-w-[250px] bg-white rounded-2xl shadow-lg p-4 border border-[#dda15e]/30 snap-start hover:scale-105 transition"
+                        className="min-w-62.5 bg-white rounded-2xl shadow-lg p-4 border border-[#dda15e]/30 snap-start hover:scale-105 transition"
                       >
                         <div className="h-32 bg-gray-200 rounded-xl mb-3"></div>
                         <h4 className="text-lg font-medium text-[#6c3b27]">
@@ -234,6 +234,7 @@ function RouteComponent() {
                 )}
                 {postings.map((posting) => (
                   <ListingCard
+                    id={posting.id}
                     category={posting.category}
                     title={posting.title}
                     status={posting.status}

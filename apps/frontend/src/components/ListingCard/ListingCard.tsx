@@ -1,6 +1,8 @@
-import jars from '../../../public/images/jars.jpg'
+import { Link } from '@tanstack/react-router'
+import jars from '../../images/jars.jpg'
 
 interface ListingCardProps {
+  id: string
   category: string
   status: string
   title: string
@@ -9,6 +11,7 @@ interface ListingCardProps {
 }
 
 export function ListingCard({
+  id,
   category,
   status,
   title,
@@ -46,9 +49,13 @@ export function ListingCard({
           <span>Posted 1 day ago</span>
         </div>
 
-        <button className="w-full bg-[#dda15e] text-white py-2 rounded-lg hover:bg-[#bc6c25] transition">
+        <Link
+          className="min-w-full w-full bg-[#dda15e] text-white py-2 pr-2 pl-2 rounded-lg hover:bg-[#bc6c25] transition"
+          to={'/listings/$listingID'}
+          params={{ listingID: id }}
+        >
           Details
-        </button>
+        </Link>
       </div>
     </div>
   )

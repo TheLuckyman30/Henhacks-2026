@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import type { CreatePosting, PostingOut } from '@repo/db-types'
+import type { CreatePosting, PostingOut, UserOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
 
 type ListingFormModalProps = {
@@ -8,7 +8,15 @@ type ListingFormModalProps = {
   onClose: () => void
 }
 
-const CATEGORIES = ['Glass', 'Plastic', 'Fabric', 'Wood', 'Metal', 'Other']
+const CATEGORIES = [
+  'Glass',
+  'Plastic',
+  'Fabric',
+  'Wood',
+  'Metal',
+  'Paper',
+  'Other',
+]
 
 export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
   const [title, setTitle] = useState<string>('')
@@ -19,6 +27,11 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
   const [images, setImages] = useState<string[]>([])
   const [category, setCategory] = useState<string>(CATEGORIES[0])
   const qc = useQueryClient()
+
+  const user = useQuery<UserOut>({
+    queryFn: () => fetcher<UserOut>({ endpoint: '/user/me' }),
+    queryKey: ['user', 'me'],
+  })
 
   const mutation = useMutation({
     mutationFn: (createPosting: CreatePosting) =>
@@ -37,7 +50,7 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto'
   }, [isOpen])
 
-  if (!isOpen) return null
+  if (!isOpen || user.isLoading) return null
 
   const addTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput.trim())) {
@@ -249,13 +262,14 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
               onClick={(e) => {
                 e.preventDefault()
                 mutation.mutate({
-                  userId: '1',
+                  userId: user.data?.id ?? '',
                   title,
                   description,
                   address,
                   tags,
                   category,
                 })
+                onClose()
               }}
               className="bg-[#6c3b27] text-white px-8 py-3 rounded-full hover:bg-[#5a2f1f] transition"
             >
