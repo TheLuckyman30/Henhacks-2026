@@ -7,6 +7,8 @@ import { PreferenceForm } from '#/components/PreferForm/PreferForm.tsx'
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <div className="w-full min-h-screen bg-container flex flex-col">
       <main className="flex-1 w-full flex flex-col items-center space-y-16 pb-24">
@@ -44,18 +46,18 @@ function App() {
                 <br></br>
                 <p className="text-lg text-white/90 ">
                   A community-powered recycling network that turns everyday
-                  waste into opportunity. Share anything unwanted with your
+                  waste into opportunity. Share any unwanted material with your
                   neighbors who can reuse them, and make the community and
                   planet stronger- for free!
                 </p>
 
                 <div className="flex gap-4">
-                  <Link
+                  <button
                     className="bg-[#6c3b27] text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition"
-                    to={'/listings'}
+                    onClick={() => setIsModalOpen(true)}
                   >
-                    Post an Item
-                  </Link>
+                    Preferences
+                  </button>
 
                   <Link
                     className="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-[#6c3b27] transition"
@@ -77,7 +79,7 @@ function App() {
             </h3>
             <p className="text-gray-600">
               Before it hits your trash or recycling, list it here. From egg
-              cartons to glass jars, someone nearby might need it.
+              cartons to plastic bags, someone nearby might need it.
             </p>
           </div>
 
@@ -208,6 +210,10 @@ function App() {
           </div>
         </section>
       </main>
+      <PreferenceForm
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   )
 }

@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import './navbar.css'
+import { useState } from 'react'
+import { AuthModal } from './Login/LoginForm.tsx'
 
 const getNavItems = () => {
   return [
@@ -7,12 +9,12 @@ const getNavItems = () => {
     { name: 'Community', link: '/community' },
     { name: 'Listings', link: '/listings' },
     { name: 'My Profile', link: '/myProfile' },
-    { name: 'Login', link: '/' },
   ]
 }
 
 export function Navbar() {
   const navItems = getNavItems()
+  const [isAuthOpen, setIsAuthOpen] = useState(false)
 
   return (
     <div className="absolute top-[5vh] left-0 w-full z-20 flex justify-center">
@@ -37,6 +39,13 @@ export function Navbar() {
             {item.name}
           </Link>
         ))}
+        <button
+          onClick={() => setIsAuthOpen(true)}
+          className="bg-[#6c3b27] text-white px-6 py-2 rounded-full shadow-md hover:bg-[#5a2f1f] transition"
+        >
+          Login
+        </button>
+        <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
       </nav>
     </div>
   )

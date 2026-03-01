@@ -34,11 +34,18 @@ function RouteComponent() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
             <div className="absolute inset-0 bg-black/30"></div>
 
-            <div className="relative z-10 h-full flex flex-col mt-10 justify-center items-center text-white text-center px-6">
-              <h1 className="text-4xl font-bold">Community Treasures ♻️</h1>
-              <p className="mt-4 max-w-2xl text-white/90">
+            <div className="relative z-10 h-full flex flex-col justify-between items-center text-white text-center px-6 py-8">
+              <h1 className="text-4xl mt-30 font-bold">
+                Community Treasures ♻️
+              </h1>
+              <p className=" max-w-2xl text-white/90 text-xl">
                 Browse items shared by your neighbors and give them a second
-                life.
+                life. Or put up your own treasures for others to find!
+              </p>
+
+              <p className=" max-w-2xl text-white/90 text-sm">
+                Some great examples: Plastic and paper bags, egg cartons,
+                cardboard, empty spray bottles, etc.
               </p>
             </div>
           </div>
