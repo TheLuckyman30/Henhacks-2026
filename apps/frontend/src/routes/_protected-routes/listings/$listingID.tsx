@@ -1,6 +1,6 @@
 import { Navbar } from '#/components/navbar'
 import { Link, createFileRoute } from '@tanstack/react-router'
-import jars from '../../images/jars.jpg'
+import jars from '../../../images/jars.jpg'
 
 export const Route = createFileRoute('/_protected-routes/listings/$listingID')({
   component: RouteComponent,
@@ -16,9 +16,9 @@ function RouteComponent() {
 
       <main className="flex-1 flex flex-col items-center space-y-16 mb-20">
         <section className="w-full">
-          <div className="relative h-[300px] shadow-xl overflow-hidden">
+          <div className="relative h-75 shadow-xl overflow-hidden">
             {/* Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
             <div className="absolute inset-0 bg-black/30"></div>
             <Link
               to="/listings"
@@ -39,7 +39,7 @@ function RouteComponent() {
                 <img
                   src={jars}
                   alt="Item"
-                  className="w-full h-[500px] object-cover"
+                  className="w-full h-125 object-cover"
                 />
 
                 <div className="absolute top-4 right-4 bg-[#6c3b27] text-white text-xs px-4 py-1 rounded-full">

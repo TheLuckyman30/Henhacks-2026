@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import type { CreatePosting, PostingOut } from '@repo/db-types'
+import type { CreatePosting, PostingOut, UserOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
 
 type ListingFormModalProps = {
@@ -28,6 +28,11 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
   const [category, setCategory] = useState<string>(CATEGORIES[0])
   const qc = useQueryClient()
 
+  const user = useQuery<UserOut>({
+    queryFn: () => fetcher<UserOut>({ endpoint: '/user/me' }),
+    queryKey: ['user', 'me'],
+  })
+
   const mutation = useMutation({
     mutationFn: (createPosting: CreatePosting) =>
       fetcher<PostingOut>({
@@ -45,7 +50,7 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto'
   }, [isOpen])
 
-  if (!isOpen) return null
+  if (!isOpen || user.isLoading) return null
 
   const addTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput.trim())) {
@@ -257,7 +262,7 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
               onClick={(e) => {
                 e.preventDefault()
                 mutation.mutate({
-                  userId: '1',
+                  userId: user.data?.id ?? '',
                   title,
                   description,
                   address,

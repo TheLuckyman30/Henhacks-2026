@@ -18,9 +18,9 @@ function RouteComponent() {
 
       <main className="flex-1 flex flex-col items-center space-y-16 mb-20">
         <section className="w-full">
-          <div className="relative h-[360px] shadow-xl overflow-hidden">
+          <div className="relative h-90 shadow-xl overflow-hidden">
             {/* Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
             <div className="absolute inset-0 bg-black/30"></div>
 
             <div className="relative z-10 h-full flex flex-col mt-10 justify-center items-center text-white text-center px-6">
@@ -179,7 +179,7 @@ function RouteComponent() {
                 </div>
 
                 <div className="w-full bg-[#fefae0] rounded-full h-4 overflow-hidden">
-                  <div className="bg-[#6c3b27] h-4 rounded-full w-[100%]"></div>
+                  <div className="bg-[#6c3b27] h-4 rounded-full w-full"></div>
                 </div>
               </div>
 

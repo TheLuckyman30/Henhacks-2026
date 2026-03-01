@@ -2,9 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from './auth-store'
 import type { Auth, TokenOut } from '@repo/db-types'
 import { fetcher } from './fetcher'
+import { useNavigate } from '@tanstack/react-router'
 
 export function useAuth() {
   const qc = useQueryClient()
+  const nav = useNavigate()
   const setToken = useAuthStore((state) => state.setToken)
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated)
   const signupMutation = useMutation({
@@ -50,6 +52,7 @@ export function useAuth() {
     setToken('')
     setIsAuthenticated(false)
     qc.removeQueries()
+    nav({ to: '/' })
   }
 
   return { signup, login, logout }
