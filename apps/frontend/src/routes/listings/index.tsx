@@ -1,12 +1,18 @@
+'use client'
 import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 import jars from '../../../public/images/jars.jpg'
+
+import { useState } from 'react'
+import { ListingFormModal } from '#/components/ListingForm/ListingForm.tsx'
 
 export const Route = createFileRoute('/listings/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <div className="relative w-full min-h-screen flex flex-col bg-container">
       {/* Header */}
@@ -99,10 +105,17 @@ function RouteComponent() {
                 <button className="ml-4 bg-[#6c3b27] text-white px-6 py-4 rounded-2xl shadow-md hover:scale-105 transition">
                   Search
                 </button>
-                <button className="ml-4 bg-[#606c38] text-white px-6 py-4 rounded-2xl shadow-md hover:scale-105 transition">
+                <button
+                  className="ml-4 bg-[#606c38] text-white px-6 py-4 rounded-2xl shadow-md hover:scale-105 transition"
+                  onClick={() => setIsModalOpen(true)}
+                >
                   Create Listing
                 </button>
               </div>
+              <ListingFormModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+              />
 
               {/* Listings Grid */}
               <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
