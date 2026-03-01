@@ -6,7 +6,8 @@
     "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
-    "declaration": true
+    "declaration": true,
+    "skipLibCheck": true
   },
-  "include": ["generated", "lib"]
+  "include": ["generated"]
 }
