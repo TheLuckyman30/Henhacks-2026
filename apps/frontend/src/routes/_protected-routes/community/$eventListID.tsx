@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/community/$eventListID')({
+export const Route = createFileRoute('/_protected-routes/community/$eventListID')({
   component: RouteComponent,
 })
 

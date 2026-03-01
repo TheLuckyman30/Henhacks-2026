@@ -2,7 +2,7 @@ import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/community/')({
+export const Route = createFileRoute('/_protected-routes/community/')({
   component: RouteComponent,
 })
 

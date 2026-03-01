@@ -1,4 +1,4 @@
-export { UserOut, CreateUser, DeleteUser } from "./user";
+export { UserOut, UpdateUser } from "./user";
 export {
   FindPostings,
   MyPostingOut,
@@ -7,3 +7,4 @@ export {
   DeletePosting,
   UpdatePosting,
 } from "./posting";
+export { Auth, TokenOut } from "./auth";

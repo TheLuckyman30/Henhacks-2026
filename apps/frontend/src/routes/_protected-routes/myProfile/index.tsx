@@ -1,7 +1,7 @@
 import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/myProfile/')({
+export const Route = createFileRoute('/_protected-routes/myProfile/')({
   component: RouteComponent,
 })
 

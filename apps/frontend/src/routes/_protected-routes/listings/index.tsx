@@ -11,7 +11,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { PostingOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
 
-export const Route = createFileRoute('/listings/')({
+export const Route = createFileRoute('/_protected-routes/listings/')({
   component: RouteComponent,
 })
 

@@ -1,0 +1,142 @@
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
+import { Auth, TokenOut } from '@repo/db-types';
+import { JwtService } from '@nestjs/jwt';
+import { UserOut } from '@repo/db-types';
+import * as bcrypt from 'bcrypt';
+import { Prisma } from '@repo/database';
+import { Response } from 'express';
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
+
+  private async generateTokens(
+    { id, name, email }: UserOut,
+    response: Response,
+  ): Promise<TokenOut> {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(
+        { sub: id, name, email },
+        { expiresIn: '15m', secret: process.env.JWT_ACCESS_SECRET },
+      ),
+      this.jwtService.signAsync(
+        { sub: id, name, email },
+        {
+          expiresIn: '30d',
+          secret: process.env.JWT_REFRESH_SECRET,
+        },
+      ),
+    ]);
+
+    const refresh_token_hash = await bcrypt.hash(refreshToken, 10);
+    await this.prisma.user.update({
+      where: { id },
+      data: { refresh_token_hash },
+    });
+
+    response.cookie('refresh', refreshToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      path: '/auth/refresh',
+      secure: process.env.USE_SECURE === 'true',
+    });
+
+    return { accessToken };
+  }
+
+  async signUp(signUpDto: Auth, response: Response): Promise<TokenOut> {
+    const hash_password = await bcrypt.hash(signUpDto.password, 10);
+
+    let newUser: UserOut;
+    try {
+      newUser = await this.prisma.user.create({
+        data: {
+          name: signUpDto.name,
+          password_hash: hash_password,
+          email: signUpDto.email,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ConflictException(
+          `A user with that information already exists`,
+        );
+      }
+      throw error;
+    }
+
+    return await this.generateTokens(newUser, response);
+  }
+
+  async login(loginDto: Auth, response: Response): Promise<TokenOut> {
+    const user = await this.prisma.user.findUnique({
+      where: { name: loginDto.name },
+    });
+
+    if (!user) throw new ForbiddenException('Incorrect Credentials!');
+
+    const isValidPassword = await bcrypt.compare(
+      loginDto.password,
+      user.password_hash,
+    );
+
+    if (!isValidPassword) {
+      throw new ForbiddenException('Incorrect Credentials!');
+    }
+
+    return await this.generateTokens(user, response);
+  }
+
+  async logout(id: string, response: Response) {
+    await this.prisma.user.update({
+      where: { id },
+      data: { refresh_token_hash: null },
+    });
+
+    response.clearCookie('refresh', {
+      httpOnly: true,
+      sameSite: 'none',
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      path: '/auth/refresh',
+      secure: process.env.USE_SECURE === 'true',
+    });
+
+    return { logout: 'done' };
+  }
+
+  async checkRefresh(
+    id: string,
+    refreshToken: string,
+    response: Response,
+  ): Promise<TokenOut> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+
+    if (!user) throw new ForbiddenException('Access Denied');
+
+    const isValidToken = bcrypt.compare(
+      refreshToken,
+      user.refresh_token_hash ?? '',
+    );
+
+    if (!isValidToken) throw new ForbiddenException('Access Denied');
+
+    return await this.generateTokens(user, response);
+  }
+}
