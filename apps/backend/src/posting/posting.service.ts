@@ -6,6 +6,7 @@ import {
   MyPostingOut,
   PostingOut,
 } from '@repo/db-types';
+import { encode } from '@aashari/nodejs-geocoding';
 
 @Injectable()
 export class PostingService {
@@ -41,6 +42,7 @@ export class PostingService {
         description: true,
         claimed: true,
         location: true,
+        address: true,
         createdAt: true,
       },
     });
@@ -72,8 +74,13 @@ export class PostingService {
   }
 
   async createPosting(createPostingDto: CreatePosting): Promise<MyPostingOut> {
+    const locationObj = await encode(createPostingDto.address);
+    const location = [
+      locationObj[0].latitude ?? 0,
+      locationObj[0].longitude ?? 0,
+    ];
     const newPosting = await this.prisma.posting.create({
-      data: createPostingDto,
+      data: { ...createPostingDto, location },
       select: {
         id: true,
         title: true,

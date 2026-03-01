@@ -22,6 +22,7 @@ export const PostingOut = z.object({
   title: z.string(),
   description: z.string(),
   distance: z.int(),
+  address: z.string(),
   claimed: z.boolean(),
   createdAt: z.iso.datetime(),
 });
@@ -31,7 +32,7 @@ export const CreatePosting = z.object({
   userId: z.cuid(),
   title: z.string(),
   description: z.string(),
-  location: z.array(z.float64()),
+  address: z.string(),
 });
 export type CreatePosting = z.infer<typeof CreatePosting>;
 
@@ -45,5 +46,7 @@ export const UpdatePosting = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   claimed: z.boolean().optional(),
+  address: z.string().optional(),
+  location: z.array(z.float64()).optional(),
 });
 export type UpdatePosting = z.infer<typeof UpdatePosting>;

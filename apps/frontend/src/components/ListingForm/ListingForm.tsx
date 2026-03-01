@@ -1,5 +1,7 @@
-'use client'
-import { useEffect } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import type { CreatePosting, PostingOut } from '@repo/db-types'
+import { fetcher } from '#/utils/fetcher'
 
 type ListingFormModalProps = {
   isOpen: boolean
@@ -7,6 +9,18 @@ type ListingFormModalProps = {
 }
 
 export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
+  const [title, setTitle] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+
+  const mutation = useMutation({
+    mutationFn: (createPosting: CreatePosting) =>
+      fetcher<PostingOut>({
+        endpoint: '/posting',
+        init: { method: 'POST', body: JSON.stringify(createPosting) },
+      }),
+  })
+
   // Prevent background scrolling when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -46,9 +60,11 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
               Title
             </label>
             <input
+              value={title}
               type="text"
               placeholder="e.g., Extra Mason Jars"
               className="w-full rounded-xl border border-[#6c3b27]/30 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
@@ -73,9 +89,11 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
               Description
             </label>
             <textarea
+              value={description}
               rows={4}
               placeholder="Describe condition, quantity, and pickup preferences..."
               className="w-full rounded-xl border border-[#6c3b27]/30 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
@@ -85,16 +103,26 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
               Location
             </label>
             <input
+              value={address}
               type="text"
-              placeholder="City or neighborhood"
+              placeholder="City, neighborhood, or zipcode"
               className="w-full rounded-xl border border-[#6c3b27]/30 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
 
           {/* Submit */}
           <div className="pt-4 flex justify-end">
             <button
-              type="submit"
+              onClick={(e) => {
+                e.preventDefault()
+                mutation.mutate({
+                  userId: '1',
+                  title,
+                  description,
+                  address,
+                })
+              }}
               className="bg-[#6c3b27] text-white px-6 py-2 rounded-full hover:bg-[#5a2f1f] transition"
             >
               Post Listing

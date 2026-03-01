@@ -16,9 +16,9 @@ datasource db {
 model User {
   id        String    @id @default(cuid())
   name      String
-  postings  Posting[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  postings  Posting[]
 }
 
 model Posting {
@@ -26,6 +26,7 @@ model Posting {
   userId      String   @unique
   title       String
   description String
+  address     String
   location    Float[]
   claimed     Boolean  @default(false)
   createdAt   DateTime @default(now())
