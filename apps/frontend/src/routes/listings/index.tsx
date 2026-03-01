@@ -7,7 +7,7 @@ import '../listing.css'
 import { useState } from 'react'
 import { ListingFormModal } from '#/components/ListingForm/ListingForm.tsx'
 import { ListingCard } from '#/components/ListingCard/ListingCard'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { PostingOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
 
@@ -23,6 +23,7 @@ function RouteComponent() {
   const [zipcode, setZipcode] = useState('19711')
   const [radius, setRadius] = useState(10)
   const [available, setAvailable] = useState('All')
+  const qc = useQueryClient()
 
   const { data, isLoading } = useQuery<PostingOut[]>({
     queryKey: ['postings'],
@@ -158,7 +159,12 @@ function RouteComponent() {
                   </select>
                 </div>
 
-                <button className="w-full bg-[#6c3b27] text-white py-2 rounded-xl shadow-md hover:scale-105 transition">
+                <button
+                  onClick={() =>
+                    qc.invalidateQueries({ queryKey: ['postings'] })
+                  }
+                  className="w-full bg-[#6c3b27] text-white py-2 rounded-xl shadow-md hover:scale-105 transition"
+                >
                   Apply Filters
                 </button>
               </div>
