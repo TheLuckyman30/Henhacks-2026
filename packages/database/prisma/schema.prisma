@@ -23,7 +23,7 @@ model User {
 
 model Posting {
   id          String   @id @default(cuid())
-  userId      String   @unique
+  userId      String
   title       String
   description String
   address     String

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { UserOut } from "./user";
 
 export const FindPostings = z.object({
-  location: z.array(z.int()),
+  zipcode: z.string(),
   range: z.int(),
 });
 export type FindPostings = z.infer<typeof FindPostings>;

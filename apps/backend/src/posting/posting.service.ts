@@ -28,12 +28,18 @@ export class PostingService {
       Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
     const rad = 3958.8;
     const c = 2 * Math.asin(Math.sqrt(a));
+    console.log(rad * c);
     return rad * c;
   }
 
   async findPostingsInRange(
     findPostingsDto: FindPostings,
   ): Promise<PostingOut[]> {
+    const locationObj = await encode(findPostingsDto.zipcode);
+    const givenLocation = [
+      locationObj[0].latitude ?? 0,
+      locationObj[0].longitude ?? 0,
+    ];
     const postings = await this.prisma.posting.findMany({
       select: {
         id: true,
@@ -55,8 +61,7 @@ export class PostingService {
 
     const filteredPostings = postings.filter(
       (p) =>
-        this.calcDistance(p.location, findPostingsDto.location) <=
-        findPostingsDto.range,
+        this.calcDistance(p.location, givenLocation) <= findPostingsDto.range,
     );
 
     if (!filteredPostings) {
@@ -68,9 +73,7 @@ export class PostingService {
       return {
         ...newPosting,
         createdAt: p.createdAt.toISOString(),
-        distance: Math.ceil(
-          this.calcDistance(location, findPostingsDto.location),
-        ),
+        distance: Math.ceil(this.calcDistance(location, givenLocation)),
       };
     });
   }

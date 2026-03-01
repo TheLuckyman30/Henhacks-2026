@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import type { CreatePosting, PostingOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
@@ -18,6 +18,7 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
   const [tagInput, setTagInput] = useState('')
   const [images, setImages] = useState<string[]>([])
   const [category, setCategory] = useState<string>(CATEGORIES[0])
+  const qc = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: (createPosting: CreatePosting) =>
@@ -25,6 +26,9 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
         endpoint: '/posting',
         init: { method: 'POST', body: JSON.stringify(createPosting) },
       }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['postings'] })
+    },
   })
 
   // Prevent background scrolling when modal is open
