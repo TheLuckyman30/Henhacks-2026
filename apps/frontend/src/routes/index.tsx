@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Navbar } from '../components/navbar'
-import CommunityVid from '../../public/images/Community1.mov'
+import CommunityVid from '../images/Community1.mov'
 import { useState } from 'react'
 import { PreferenceForm } from '#/components/PreferForm/PreferForm.tsx'
 
