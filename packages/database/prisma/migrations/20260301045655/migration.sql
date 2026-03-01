@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Posting" ALTER COLUMN "location" SET DATA TYPE DOUBLE PRECISION[];

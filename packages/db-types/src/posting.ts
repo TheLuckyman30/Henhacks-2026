@@ -7,12 +7,21 @@ export const FindPostings = z.object({
 });
 export type FindPostings = z.infer<typeof FindPostings>;
 
+export const MyPostingOut = z.object({
+  id: z.cuid(),
+  title: z.string(),
+  description: z.string(),
+  createdAt: z.iso.datetime(),
+});
+export type MyPostingOut = z.infer<typeof MyPostingOut>;
+
 export const PostingOut = z.object({
   id: z.cuid(),
   user: UserOut,
   title: z.string(),
   description: z.string(),
   location: z.string(),
+  distance: z.int(),
   createdAt: z.iso.datetime(),
 });
 export type PostingOut = z.infer<typeof PostingOut>;
@@ -21,7 +30,7 @@ export const CreatePosting = z.object({
   userId: z.cuid(),
   title: z.string(),
   description: z.string(),
-  location: z.array(z.int()),
+  location: z.array(z.float64()),
 });
 export type CreatePosting = z.infer<typeof CreatePosting>;
 

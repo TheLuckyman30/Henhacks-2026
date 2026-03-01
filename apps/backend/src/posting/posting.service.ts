@@ -1,6 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreatePosting, FindPostings, PostingOut } from '@repo/db-types';
+import {
+  CreatePosting,
+  FindPostings,
+  MyPostingOut,
+  PostingOut,
+} from '@repo/db-types';
 import { decode } from '@aashari/nodejs-geocoding';
 
 @Injectable()
@@ -12,7 +17,7 @@ export class PostingService {
     const long1 = coords1[1];
     let lat2 = coords2[0];
     const long2 = coords2[1];
-
+    console.log(lat1, long1);
     let dLat = ((lat2 - lat1) * Math.PI) / 180.0;
     let dLon = ((long2 - long1) * Math.PI) / 180.0;
 
@@ -24,6 +29,7 @@ export class PostingService {
       Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
     const rad = 3958.8;
     const c = 2 * Math.asin(Math.sqrt(a));
+    console.log(rad * c);
     return rad * c;
   }
 
@@ -63,19 +69,20 @@ export class PostingService {
           (await decode(p.location[0], p.location[1]).then(
             (l) => l?.formatted_address,
           )) ?? '',
+        distance: Math.ceil(
+          this.calcDistance(p.location, findPostingsDto.location),
+        ),
       })),
     );
   }
 
-  async createPosting(createPostingDto: CreatePosting): Promise<PostingOut> {
+  async createPosting(createPostingDto: CreatePosting): Promise<MyPostingOut> {
     const newPosting = await this.prisma.posting.create({
       data: createPostingDto,
       select: {
         id: true,
-        user: { select: { id: true, name: true } },
         title: true,
         description: true,
-        location: true,
         createdAt: true,
       },
     });
@@ -83,10 +90,6 @@ export class PostingService {
     return {
       ...newPosting,
       createdAt: newPosting.createdAt.toISOString(),
-      location:
-        (await decode(newPosting.location[0], newPosting.location[1]).then(
-          (l) => l?.formatted_address,
-        )) ?? '',
     };
   }
 }
