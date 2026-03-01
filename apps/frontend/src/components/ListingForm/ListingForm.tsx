@@ -8,7 +8,15 @@ type ListingFormModalProps = {
   onClose: () => void
 }
 
-const CATEGORIES = ['Glass', 'Plastic', 'Fabric', 'Wood', 'Metal', 'Other']
+const CATEGORIES = [
+  'Glass',
+  'Plastic',
+  'Fabric',
+  'Wood',
+  'Metal',
+  'Paper',
+  'Other',
+]
 
 export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
   const [title, setTitle] = useState<string>('')
@@ -256,6 +264,7 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
                   tags,
                   category,
                 })
+                onClose()
               }}
               className="bg-[#6c3b27] text-white px-8 py-3 rounded-full hover:bg-[#5a2f1f] transition"
             >
