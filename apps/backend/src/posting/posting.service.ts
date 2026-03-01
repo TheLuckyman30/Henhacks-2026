@@ -1,7 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreatePosting, FindPostings, PostingOut } from '@repo/db-types';
-import { decode } from '@aashari/nodejs-geocoding';
+import {
+  CreatePosting,
+  FindPostings,
+  MyPostingOut,
+  PostingOut,
+} from '@repo/db-types';
+import { encode } from '@aashari/nodejs-geocoding';
 
 @Injectable()
 export class PostingService {
@@ -12,7 +17,6 @@ export class PostingService {
     const long1 = coords1[1];
     let lat2 = coords2[0];
     const long2 = coords2[1];
-
     let dLat = ((lat2 - lat1) * Math.PI) / 180.0;
     let dLon = ((long2 - long1) * Math.PI) / 180.0;
 
@@ -24,19 +28,29 @@ export class PostingService {
       Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
     const rad = 3958.8;
     const c = 2 * Math.asin(Math.sqrt(a));
+    console.log(rad * c);
     return rad * c;
   }
 
   async findPostingsInRange(
     findPostingsDto: FindPostings,
   ): Promise<PostingOut[]> {
+    const locationObj = await encode(findPostingsDto.zipcode);
+    const givenLocation = [
+      locationObj[0].latitude ?? 0,
+      locationObj[0].longitude ?? 0,
+    ];
     const postings = await this.prisma.posting.findMany({
       select: {
         id: true,
         user: { select: { id: true, name: true } },
         title: true,
         description: true,
+        claimed: true,
         location: true,
+        address: true,
+        category: true,
+        tags: true,
         createdAt: true,
       },
     });
@@ -47,35 +61,38 @@ export class PostingService {
 
     const filteredPostings = postings.filter(
       (p) =>
-        this.calcDistance(p.location, findPostingsDto.location) <=
-        findPostingsDto.range,
+        this.calcDistance(p.location, givenLocation) <= findPostingsDto.range,
     );
 
     if (!filteredPostings) {
       throw new NotFoundException('No postings in range!');
     }
 
-    return await Promise.all(
-      filteredPostings.map(async (p) => ({
-        ...p,
+    return filteredPostings.map((p) => {
+      const { location, ...newPosting } = p;
+      return {
+        ...newPosting,
         createdAt: p.createdAt.toISOString(),
-        location:
-          (await decode(p.location[0], p.location[1]).then(
-            (l) => l?.formatted_address,
-          )) ?? '',
-      })),
-    );
+        distance: Math.ceil(this.calcDistance(location, givenLocation)),
+      };
+    });
   }
 
-  async createPosting(createPostingDto: CreatePosting): Promise<PostingOut> {
+  async createPosting(createPostingDto: CreatePosting): Promise<MyPostingOut> {
+    const locationObj = await encode(createPostingDto.address);
+    const location = [
+      locationObj[0].latitude ?? 0,
+      locationObj[0].longitude ?? 0,
+    ];
     const newPosting = await this.prisma.posting.create({
-      data: createPostingDto,
+      data: { ...createPostingDto, location },
       select: {
         id: true,
-        user: { select: { id: true, name: true } },
         title: true,
         description: true,
-        location: true,
+        claimed: true,
+        category: true,
+        tags: true,
         createdAt: true,
       },
     });
@@ -83,10 +100,6 @@ export class PostingService {
     return {
       ...newPosting,
       createdAt: newPosting.createdAt.toISOString(),
-      location:
-        (await decode(newPosting.location[0], newPosting.location[1]).then(
-          (l) => l?.formatted_address,
-        )) ?? '',
     };
   }
 }

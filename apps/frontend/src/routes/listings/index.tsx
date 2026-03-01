@@ -1,11 +1,15 @@
 'use client'
 import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
-import jars from '../../../public/images/jars.jpg'
+
 import '../listing.css'
 
 import { useState } from 'react'
 import { ListingFormModal } from '#/components/ListingForm/ListingForm.tsx'
+import { ListingCard } from '#/components/ListingCard/ListingCard'
+import { useQuery } from '@tanstack/react-query'
+import type { PostingOut } from '@repo/db-types'
+import { fetcher } from '#/utils/fetcher'
 
 export const Route = createFileRoute('/listings/')({
   component: RouteComponent,
@@ -13,9 +17,20 @@ export const Route = createFileRoute('/listings/')({
 
 function RouteComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const [zipcode, setZipcode] = useState('')
+  const [zipcode, setZipcode] = useState('19711')
   const [radius, setRadius] = useState(10)
+
+  const { data, isLoading } = useQuery<PostingOut[]>({
+    queryKey: ['postings'],
+    queryFn: () =>
+      fetcher<PostingOut[]>({
+        endpoint: `/posting?zipcode=${zipcode}&range=${radius}`,
+      }),
+    refetchOnWindowFocus: false,
+  })
+  const postings = data ?? []
+
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div className="relative w-full min-h-screen flex flex-col bg-container">
@@ -192,46 +207,18 @@ function RouteComponent() {
 
               <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {/* Listing Card */}
-                <div className="bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden hover:scale-[1.02] transition">
-                  <div className="relative h-52 overflow-hidden">
-                    <img
-                      src={jars}
-                      alt="Glass Jars"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-3 right-3 flex gap-2">
-                      <div className="bg-[#6c3b27] text-white text-xs px-3 py-1 rounded-full">
-                        Glass
-                      </div>
-
-                      <div className="bg-[#6c3b27] text-white text-xs px-3 py-1 rounded-full">
-                        Available
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 space-y-3">
-                    <h2 className="text-xl font-semibold text-[#6c3b27]">
-                      10 Empty Pasta Sauce Jars
-                    </h2>
-
-                    <p className="text-sm text-gray-600">
-                      Perfect for storage or craft projects. Cleaned and ready
-                      for pickup.
-                    </p>
-
-                    <div className="flex justify-between items-center text-sm text-gray-500">
-                      <span>2 miles away</span>
-                      <span>Posted 1 day ago</span>
-                    </div>
-
-                    <button className="w-full bg-[#dda15e] text-white py-2 rounded-lg hover:bg-[#bc6c25] transition">
-                      Details
-                    </button>
-                  </div>
-                </div>
-
-                {/* Duplicate cards as needed */}
+                {!postings.length && (
+                  <div className="text-gray-400">No Listings Available!</div>
+                )}
+                {postings.map((posting) => (
+                  <ListingCard
+                    category={posting.category}
+                    title={posting.title}
+                    claimed={posting.claimed}
+                    description={posting.description}
+                    distance={posting.distance}
+                  />
+                ))}
               </section>
             </div>
           </div>
