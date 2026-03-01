@@ -43,6 +43,8 @@ export class PostingService {
         claimed: true,
         location: true,
         address: true,
+        category: true,
+        tags: true,
         createdAt: true,
       },
     });
@@ -86,6 +88,8 @@ export class PostingService {
         title: true,
         description: true,
         claimed: true,
+        category: true,
+        tags: true,
         createdAt: true,
       },
     });

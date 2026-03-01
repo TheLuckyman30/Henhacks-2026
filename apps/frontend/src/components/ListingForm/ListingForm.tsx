@@ -8,10 +8,16 @@ type ListingFormModalProps = {
   onClose: () => void
 }
 
+const CATEGORIES = ['Glass', 'Plastic', 'Fabric', 'Wood', 'Metal', 'Other']
+
 export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [address, setAddress] = useState<string>('')
+  const [tags, setTags] = useState<string[]>([])
+  const [tagInput, setTagInput] = useState('')
+  const [images, setImages] = useState<string[]>([])
+  const [category, setCategory] = useState<string>(CATEGORIES[0])
 
   const mutation = useMutation({
     mutationFn: (createPosting: CreatePosting) =>
@@ -22,10 +28,6 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
   })
 
   // Prevent background scrolling when modal is open
-  const [tags, setTags] = useState<string[]>([])
-  const [tagInput, setTagInput] = useState('')
-  const [images, setImages] = useState<string[]>([])
-
   // Lock scroll
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto'
@@ -99,13 +101,16 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
             <label className="block text-sm font-medium text-[#6c3b27] mb-2">
               Category
             </label>
-            <select className="w-full rounded-xl border border-[#6c3b27]/30 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#bc6c25]">
-              <option>Glass</option>
-              <option>Plastic</option>
-              <option>Fabric</option>
-              <option>Wood</option>
-              <option>Metal</option>
-              <option>Other</option>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full rounded-xl border border-[#6c3b27]/30 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
+            >
+              {CATEGORIES.map((cat, index) => (
+                <option key={index} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -244,6 +249,8 @@ export function ListingFormModal({ isOpen, onClose }: ListingFormModalProps) {
                   title,
                   description,
                   address,
+                  tags,
+                  category,
                 })
               }}
               className="bg-[#6c3b27] text-white px-8 py-3 rounded-full hover:bg-[#5a2f1f] transition"
