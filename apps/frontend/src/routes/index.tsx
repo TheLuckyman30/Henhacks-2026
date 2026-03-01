@@ -113,50 +113,61 @@ function App() {
                 <div className="text-5xl text-gray-200 border-2 border-gray-200 rounded-md py-6 w-16 h-16 flex items-center justify-center mx-auto">
                   1
                 </div>
-                <h4 className="font-semibold text-lg text-white">
+                <h3 className="font-semibold text-2xl text-white">
                   Post Your Item
-                </h4>
+                </h3>
                 <p className="text-gray-200">
                   Upload a photo and description of materials you're giving
-                  away. Make sure to:
-                  <ul>
+                  away.
+                  <p className="text-left mt-2 mb-2 text-lg">Make sure to:</p>
+                  <ul className="list-disc list-inside text-left mt-2">
                     <li>Include clear photos of the item</li>
-                    <li>
-                      Describe the item's condition and any special features
-                    </li>
-                    <li>
-                      Use relevant tags to help others find it (e.g. "glass",
-                      "art supplies", "fabric")
-                    </li>
+                    <li>Describe the condition and any special features</li>
+                    <li>Use relevant tags to help others find it</li>
                     <li>Specify pickup/dropoff preferences and location</li>
-                    <li>
-                      Indicate quantity or size to help others understand how
-                      much is available
-                    </li>
+                    <li>Indicate quantity and/or size</li>
                   </ul>
-                  maximize its chances of being reused!
+                  <p className="text-left mt-5 text-lg">
+                    Help others understand the item as best as possible and
+                    maximize its chances of being reused!
+                  </p>
                 </p>
               </div>
 
-              <div className="space-y-3 bg-[#dda15e] rounded-xl p-6 shadow-md">
+              <div className="space-y-3 bg-[#dda15e] rounded-xl p-6 shadow-md min-h-90">
                 <div className="text-5xl text-gray-200 border-2 border-gray-200 rounded-md py-6 w-16 h-16 flex items-center justify-center mx-auto">
                   2
                 </div>
-                <h4 className="font-semibold text-lg text-white">
+                <h3 className="font-semibold text-2xl text-white">
                   Match Locally
-                </h4>
+                </h3>
                 <p className="text-gray-200">
-                  Nearby community members can request pickup within your chosen
-                  radius.
+                  <p>
+                    Choose the locations you want to look in, and we'll connect
+                    you with nearby items and neighbors in your area.
+                  </p>
+
+                  <ul className="list-disc list-inside text-left mt-2">
+                    <li>Search for specific materials or browse by category</li>
+                    <li>Message posters to arrange pickup or drop-off</li>
+                    <li>Discover reusable items in your radius</li>
+                    <li>Connect with neighbors who share similar interests</li>
+                  </ul>
+
+                  <p className="text-left mt-5 text-lg">
+                    Also, add your hobbies, organizations, recurring material
+                    needs, and pickup preferences to your profile so we can
+                    match you with the most relevant listings.
+                  </p>
                 </p>
               </div>
-              <div className="space-y-3 bg-[#bc6c25] rounded-xl p-6 shadow-md">
+              <div className="space-y-3 bg-[#bc6c25] rounded-xl p-6 shadow-md min-h-90">
                 <div className="text-5xl text-gray-200 border-2 border-gray-200 rounded-md py-6 w-16 h-16 flex items-center justify-center mx-auto">
                   3
                 </div>
-                <h4 className="font-semibold text-lg text-white">
-                  Make an Impact
-                </h4>
+                <h3 className="font-semibold text-2xl text-white">
+                  Organize and Socialize
+                </h3>
                 <p className="text-gray-200 ">
                   Reduce waste, support creativity, and strengthen your local
                   community.
