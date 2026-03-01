@@ -13,14 +13,14 @@ function RouteComponent() {
         <Navbar />
       </header>
 
-      <main className="flex-1 flex flex-col items-center py-20 mt-20 space-y-16">
-        <section className="w-5/6">
-          <div className="relative h-[260px] rounded-2xl shadow-xl overflow-hidden">
+      <main className="flex-1 flex flex-col items-center space-y-16 mb-20">
+        <section className="w-full">
+          <div className="relative h-[360px] shadow-xl overflow-hidden">
             {/* Gradient Background */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#606c38] via-[#dda15e] to-[#bc6c25] opacity-90"></div>
             <div className="absolute inset-0 bg-black/30"></div>
 
-            <div className="relative z-10 h-full flex flex-col justify-center items-center text-white text-center px-6">
+            <div className="relative z-10 h-full flex flex-col mt-10 justify-center items-center text-white text-center px-6">
               <h1 className="text-4xl font-bold">
                 Community Swap & Sustainability Events 🌱
               </h1>

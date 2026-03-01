@@ -44,7 +44,7 @@ function App() {
                   A community-powered recycling network that turns everyday
                   waste into opportunity. Share anything unwanted with your
                   neighbors who can reuse them, and make the community and
-                  planet stronger.
+                  planet stronger- for free!
                 </p>
 
                 <div className="flex gap-4">
@@ -63,8 +63,6 @@ function App() {
                   </Link>
                 </div>
               </div>
-
-              <div className="text-7xl mt-8 md:mt-0">♻️</div>
             </div>
           </div>
         </section>
@@ -73,11 +71,11 @@ function App() {
           <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center space-y-4 md:w-1/3">
             <div className="text-4xl">📦</div>
             <h3 className="text-xl font-semibold text-[#6c3b27]">
-              Give, Don’t Throw
+              Use it one more time
             </h3>
             <p className="text-gray-600">
-              Before it hits the landfill, list it here. From egg cartons to
-              glass jars, someone nearby might need it.
+              Before it hits your trash or recycling, list it here. From egg
+              cartons to glass jars, someone nearby might need it.
             </p>
           </div>
 
@@ -95,11 +93,11 @@ function App() {
           <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center space-y-4 md:w-1/3">
             <div className="text-4xl">🌱</div>
             <h3 className="text-xl font-semibold text-[#6c3b27]">
-              Track Your Impact
+              Strengthen the community
             </h3>
             <p className="text-gray-600">
-              See how much waste you've diverted from landfills and the
-              environmental impact you’ve made.
+              Organize pickups and events, help your neighbors, and build a
+              stronger local network of reuse and sustainability.
             </p>
           </div>
         </section>
@@ -111,44 +109,87 @@ function App() {
             </h2>
 
             <div className="grid md:grid-cols-3 gap-8 text-center">
-              <div className="space-y-3">
-                <div className="text-5xl">1️⃣</div>
-                <h4 className="font-semibold text-lg">Post Your Item</h4>
-                <p className="text-gray-600">
+              <div className="space-y-3 bg-[#606c38] rounded-xl p-6 shadow-md min-h-90">
+                <div className="text-5xl text-gray-200 border-2 border-gray-200 rounded-md py-6 w-16 h-16 flex items-center justify-center mx-auto">
+                  1
+                </div>
+                <h4 className="font-semibold text-lg text-white">
+                  Post Your Item
+                </h4>
+                <p className="text-gray-200">
                   Upload a photo and description of materials you're giving
-                  away.
+                  away. Make sure to:
+                  <ul>
+                    <li>Include clear photos of the item</li>
+                    <li>
+                      Describe the item's condition and any special features
+                    </li>
+                    <li>
+                      Use relevant tags to help others find it (e.g. "glass",
+                      "art supplies", "fabric")
+                    </li>
+                    <li>Specify pickup/dropoff preferences and location</li>
+                    <li>
+                      Indicate quantity or size to help others understand how
+                      much is available
+                    </li>
+                  </ul>
+                  maximize its chances of being reused!
                 </p>
               </div>
 
-              <div className="space-y-3">
-                <div className="text-5xl">2️⃣</div>
-                <h4 className="font-semibold text-lg">Match Locally</h4>
-                <p className="text-gray-600">
+              <div className="space-y-3 bg-[#dda15e] rounded-xl p-6 shadow-md">
+                <div className="text-5xl text-gray-200 border-2 border-gray-200 rounded-md py-6 w-16 h-16 flex items-center justify-center mx-auto">
+                  2
+                </div>
+                <h4 className="font-semibold text-lg text-white">
+                  Match Locally
+                </h4>
+                <p className="text-gray-200">
                   Nearby community members can request pickup within your chosen
                   radius.
                 </p>
               </div>
-
-              <div className="space-y-3">
-                <div className="text-5xl">3️⃣</div>
-                <h4 className="font-semibold text-lg">Make an Impact</h4>
-                <p className="text-gray-600">
+              <div className="space-y-3 bg-[#bc6c25] rounded-xl p-6 shadow-md">
+                <div className="text-5xl text-gray-200 border-2 border-gray-200 rounded-md py-6 w-16 h-16 flex items-center justify-center mx-auto">
+                  3
+                </div>
+                <h4 className="font-semibold text-lg text-white">
+                  Make an Impact
+                </h4>
+                <p className="text-gray-200 ">
                   Reduce waste, support creativity, and strengthen your local
                   community.
                 </p>
               </div>
             </div>
 
+            <div className="mt-12 rounded-xl p-8 space-y-4">
+              <div className="text-2xl text-[#6c3b27]">
+                <i>
+                  We pride ourselves on being a community-driven platform that
+                  fosters local connections and promotes sustainability. This is
+                  why we encourage you to take a look at what members in your
+                  community are actively sharing and reusing. By engaging with
+                  your neighbors, you can help create a stronger, more
+                  sustainable community together.
+                </i>
+              </div>
+              <div className="text-4xl text-[#6c3b27]">
+                <i>Plus the best part, it's all free !</i>
+              </div>
+            </div>
+
             {/* Impact Metrics Mockup */}
             <div className="mt-12 bg-[#fefae0] rounded-xl p-8 text-center space-y-4">
               <h3 className="text-2xl font-bold text-[#6c3b27]">
-                Community Impact
+                For those who...
               </h3>
 
               <div className="flex flex-col md:flex-row justify-center gap-10 text-lg font-medium">
-                <div>♻️ 1,245 Items Reused</div>
-                <div>🌎 320kg Waste Diverted</div>
-                <div>👥 480 Active Members</div>
+                <div>♻️ Love to Recycle</div>
+                <div>🌎 Love the Earth</div>
+                <div>👥 Love the Community</div>
               </div>
             </div>
           </div>
