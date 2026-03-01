@@ -1,4 +1,4 @@
-'use client'
+import { useAuth } from '#/utils/auth-helpers'
 import { useState, useEffect } from 'react'
 
 type AuthModalProps = {
@@ -8,13 +8,13 @@ type AuthModalProps = {
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [isSignup, setIsSignup] = useState(false)
-
   const [formData, setFormData] = useState({
     name: '',
-    username: '',
     email: '',
     password: '',
   })
+
+  const { login, signup } = useAuth()
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto'
@@ -59,9 +59,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           {/* Name (Signup Only) */}
           {isSignup && (
             <div>
-              <label className="block text-sm text-[#6c3b27] mb-1">
-                Full Name
-              </label>
+              <label className="block text-sm text-[#6c3b27] mb-1">Name</label>
               <input
                 type="text"
                 name="name"
@@ -72,21 +70,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               />
             </div>
           )}
-
-          {/* Username */}
-          <div>
-            <label className="block text-sm text-[#6c3b27] mb-1">
-              Username
-            </label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 rounded-xl border border-[#dda15e] focus:outline-none focus:ring-2 focus:ring-[#bc6c25]"
-            />
-          </div>
 
           {/* Email */}
           <div>
@@ -120,6 +103,19 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <button
             type="submit"
             className="w-full bg-[#6c3b27] text-white py-2 rounded-full shadow-md hover:bg-[#5a2f1f] transition"
+            onClick={() =>
+              isSignup
+                ? signup({
+                    name: formData.name,
+                    password: formData.password,
+                    email: formData.email,
+                  })
+                : login({
+                    name: '',
+                    password: formData.password,
+                    email: formData.email,
+                  })
+            }
           >
             {isSignup ? 'Sign Up' : 'Login'}
           </button>

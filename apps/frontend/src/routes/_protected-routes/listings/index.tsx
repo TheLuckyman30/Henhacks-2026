@@ -2,7 +2,7 @@
 import { Navbar } from '#/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 
-import '../listing.css'
+import './listing.css'
 
 import { useState } from 'react'
 import { ListingFormModal } from '#/components/ListingForm/ListingForm.tsx'

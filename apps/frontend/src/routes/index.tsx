@@ -3,11 +3,18 @@ import { Navbar } from '../components/navbar'
 import CommunityVid from '../images/Community1.mov'
 import { useState } from 'react'
 import { PreferenceForm } from '#/components/PreferForm/PreferForm.tsx'
+import { useQuery } from '@tanstack/react-query'
+import type { UserOut } from '@repo/db-types'
+import { fetcher } from '#/utils/fetcher'
 
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const user = useQuery<UserOut>({
+    queryFn: () => fetcher<UserOut>({ endpoint: '/user/me' }),
+    queryKey: ['user', 'me'],
+  })
 
   return (
     <div className="w-full min-h-screen bg-container flex flex-col">

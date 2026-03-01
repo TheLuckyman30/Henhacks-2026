@@ -42,7 +42,7 @@ export class PostingService {
     const postings = await this.prisma.posting.findMany({
       select: {
         id: true,
-        user: { select: { id: true, name: true } },
+        user: { select: { id: true, name: true, email: true } },
         title: true,
         description: true,
         status: true,

@@ -44,10 +44,10 @@ export class AuthService {
 
     response.cookie('refresh', refreshToken, {
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       maxAge: 1000 * 60 * 60 * 24 * 30,
       path: '/auth/refresh',
-      secure: process.env.USE_SECURE === 'true',
+      secure: false,
     });
 
     return { accessToken };
@@ -87,7 +87,7 @@ export class AuthService {
 
   async login(loginDto: Auth, response: Response): Promise<TokenOut> {
     const user = await this.prisma.user.findUnique({
-      where: { name: loginDto.name },
+      where: { email: loginDto.email },
     });
 
     if (!user) throw new ForbiddenException('Incorrect Credentials!');
@@ -112,10 +112,10 @@ export class AuthService {
 
     response.clearCookie('refresh', {
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       maxAge: 1000 * 60 * 60 * 24 * 30,
       path: '/auth/refresh',
-      secure: process.env.USE_SECURE === 'true',
+      secure: false,
     });
 
     return { logout: 'done' };

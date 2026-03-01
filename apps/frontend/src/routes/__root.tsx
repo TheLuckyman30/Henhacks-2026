@@ -8,10 +8,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import TanStackQueryProvider from '../integrations/tanstack-query/root-provider'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
-import { useQuery, type QueryClient } from '@tanstack/react-query'
-import { useAuthStore } from '#/utils/auth-store'
-import { fetcher } from '#/utils/fetcher'
-import type { UserOut } from '@repo/db-types'
+import { type QueryClient } from '@tanstack/react-query'
 
 interface MyRouterContext {
   queryClient: QueryClient

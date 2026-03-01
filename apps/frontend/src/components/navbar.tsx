@@ -2,6 +2,8 @@ import { Link } from '@tanstack/react-router'
 import './navbar.css'
 import { useState } from 'react'
 import { AuthModal } from './Login/LoginForm.tsx'
+import { useAuthStore } from '#/utils/auth-store.ts'
+import { useAuth } from '#/utils/auth-helpers.ts'
 
 const getNavItems = () => {
   return [
@@ -15,6 +17,8 @@ const getNavItems = () => {
 export function Navbar() {
   const navItems = getNavItems()
   const [isAuthOpen, setIsAuthOpen] = useState(false)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const { logout } = useAuth()
 
   return (
     <div className="absolute top-[5vh] left-0 w-full z-20 flex justify-center">
@@ -40,12 +44,15 @@ export function Navbar() {
           </Link>
         ))}
         <button
-          onClick={() => setIsAuthOpen(true)}
+          onClick={() => (isAuthenticated ? logout() : setIsAuthOpen(true))}
           className="bg-[#6c3b27] text-white px-6 py-2 rounded-full shadow-md hover:bg-[#5a2f1f] transition"
         >
-          Login
+          {isAuthenticated ? 'Logout' : 'Login'}
         </button>
-        <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+        <AuthModal
+          isOpen={isAuthOpen && !isAuthenticated}
+          onClose={() => setIsAuthOpen(false)}
+        />
       </nav>
     </div>
   )
