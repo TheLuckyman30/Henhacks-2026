@@ -31,9 +31,11 @@ function RouteComponent() {
                 </div>
 
                 <div>
-                  <h1 className="text-3xl font-bold">Jane Doe</h1>
+                  <h1 className="text-3xl font-bold">
+                    Selin and Brandon (Hi !)
+                  </h1>
                   <p className="text-white/90">
-                    Community Recycler • Newark, NJ
+                    Community Recycler • Newark, DE
                   </p>
                   <p className="text-sm text-white/80 mt-1">
                     Member since March 2026

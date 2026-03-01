@@ -61,7 +61,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           />
         </TanStackQueryProvider>
         <Scripts />
-        <section className="w-full h-[20vh] bg-[#6c3b27d7]"></section>
+        <section className="w-full h-[20vh] bg-[#6c3b27d7]">
+          <div className="w-full h-full flex items-center justify-center text-white text-sm">
+            <p>Made for HenHacks2026 by Selin and Brandon with love !</p>
+          </div>
+        </section>
       </body>
     </html>
   )
