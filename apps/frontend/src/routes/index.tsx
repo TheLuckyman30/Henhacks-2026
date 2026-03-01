@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { Navbar } from '../components/navbar'
 import CommunityVid from '../../public/images/Community1.mov'
 
@@ -32,15 +32,15 @@ function App() {
           <div className="relative z-10 h-full flex items-center justify-center px-6">
             <div className="max-w-5xl w-full flex flex-col md:flex-row items-center justify-between text-white">
               <div className="max-w-xl space-y-6">
-                <h1 className="text-4xl md:text-5xl font-bold">
-                  One Person’s Trash is Another’s Treasure 🌎
+                <h1 className="text-3xl md:text-4xl font-bold">
+                  .. Is Another Man's Treasure !🌎
                 </h1>
 
                 <h2>
                   <i className="text-2xl">Just like the saying goes!</i>
                 </h2>
-
-                <p className="text-lg text-white/90">
+                <br></br>
+                <p className="text-lg text-white/90 ">
                   A community-powered recycling network that turns everyday
                   waste into opportunity. Share anything unwanted with your
                   neighbors who can reuse them, and make the community and
@@ -48,13 +48,19 @@ function App() {
                 </p>
 
                 <div className="flex gap-4">
-                  <button className="bg-[#6c3b27] text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition">
+                  <Link
+                    className="bg-[#6c3b27] text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition"
+                    to={'/listings'}
+                  >
                     Post an Item
-                  </button>
+                  </Link>
 
-                  <button className="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-[#6c3b27] transition">
+                  <Link
+                    className="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-[#6c3b27] transition"
+                    to={'/listings'}
+                  >
                     Browse Treasures
-                  </button>
+                  </Link>
                 </div>
               </div>
 
