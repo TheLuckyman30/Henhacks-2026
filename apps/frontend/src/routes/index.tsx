@@ -46,9 +46,10 @@ function App() {
                 <br></br>
                 <p className="text-lg text-white/90 ">
                   A community-powered recycling network that turns everyday
-                  waste into opportunity. Share any unwanted material with your
-                  neighbors who can reuse them, and make the community and
-                  planet stronger- for free!
+                  waste into opportunity. Share any unwanted material that
+                  wouldve gone in your trashbin or recycling with your neighbors
+                  who can reuse them, and make the community and planet
+                  stronger- for free!
                 </p>
 
                 <div className="flex gap-4">
