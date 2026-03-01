@@ -2,7 +2,7 @@ import jars from '../../../public/images/jars.jpg'
 
 interface ListingCardProps {
   category: string
-  claimed: boolean
+  status: string
   title: string
   description: string
   distance: number
@@ -10,7 +10,7 @@ interface ListingCardProps {
 
 export function ListingCard({
   category,
-  claimed,
+  status,
   title,
   description,
   distance,
@@ -29,7 +29,7 @@ export function ListingCard({
           </div>
 
           <div className="bg-[#6c3b27] text-white text-xs px-3 py-1 rounded-full">
-            {claimed ? 'Unavailable' : 'Available'}
+            {status}
           </div>
         </div>
       </div>
