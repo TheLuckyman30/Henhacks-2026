@@ -2,6 +2,7 @@ export { UserOut, UpdateUser } from "./user";
 export {
   FindPostings,
   MyPostingOut,
+  SinglePostingOut,
   PostingOut,
   CreatePosting,
   DeletePosting,

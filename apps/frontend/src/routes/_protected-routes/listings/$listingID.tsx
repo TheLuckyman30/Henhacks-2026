@@ -1,12 +1,32 @@
 import { Navbar } from '#/components/navbar'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import jars from '../../../images/jars.jpg'
+import { useUserStore } from '#/utils/user-store'
+import type { SinglePostingOut } from '@repo/db-types'
+import { fetcher } from '#/utils/fetcher'
+import { useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/_protected-routes/listings/$listingID')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { listingID } = Route.useParams()
+  const { zipcode } = useUserStore()
+
+  const { data, isLoading } = useQuery<SinglePostingOut>({
+    queryKey: ['posting', listingID],
+    queryFn: () =>
+      fetcher<SinglePostingOut>({
+        endpoint: `/posting/${listingID}?zipcode=${zipcode}`,
+      }),
+    refetchOnWindowFocus: false,
+  })
+
+  if (isLoading) return <div>Loading...</div>
+
+  if (!data) return null
+
   return (
     <div className="relative w-full min-h-screen flex flex-col bg-container">
       {/* Header */}
@@ -43,7 +63,7 @@ function RouteComponent() {
                 />
 
                 <div className="absolute top-4 right-4 bg-[#6c3b27] text-white text-xs px-4 py-1 rounded-full">
-                  Glass
+                  {data.category}
                 </div>
               </div>
 
@@ -58,11 +78,14 @@ function RouteComponent() {
             <div className="space-y-8">
               <div>
                 <h1 className="text-4xl font-bold text-[#6c3b27]">
-                  10 Empty Pasta Sauce Jars
+                  {data.title}
                 </h1>
 
                 <p className="text-gray-600 mt-2">
-                  Posted 1 day ago • 2 miles away
+                  Posted 1 day ago •{' '}
+                  {data.distance <= 1
+                    ? '<1 mile away'
+                    : `${data.distance} miles away`}
                 </p>
               </div>
 
@@ -76,7 +99,7 @@ function RouteComponent() {
                     <div className="w-12 h-12 bg-[#6c3b27] rounded-full"></div>
                     <div>
                       <p className="font-semibold text-[#6c3b27]">
-                        Posted by Selin
+                        Posted by {data.user.name}
                       </p>
                       <p className="text-sm text-gray-500">
                         5 successful exchanges
@@ -85,9 +108,7 @@ function RouteComponent() {
                   </div>
 
                   <p className="text-gray-700 leading-relaxed">
-                    Cleaned and label-free glass jars perfect for storage,
-                    pantry organization, DIY candle projects, or small planters.
-                    Porch pickup available.
+                    {data.description}
                   </p>
                 </div>
 

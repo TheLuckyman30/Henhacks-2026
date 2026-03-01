@@ -27,9 +27,20 @@ export const PostingOut = z.object({
   status: z.string(),
   category: z.string(),
   tags: z.array(z.string()),
-  createdAt: z.iso.datetime(),
 });
 export type PostingOut = z.infer<typeof PostingOut>;
+
+export const SinglePostingOut = z.object({
+  id: z.cuid(),
+  user: UserOut,
+  title: z.string(),
+  description: z.string(),
+  distance: z.int(),
+  status: z.string(),
+  category: z.string(),
+  tags: z.array(z.string()),
+});
+export type SinglePostingOut = z.infer<typeof PostingOut>;
 
 export const CreatePosting = z.object({
   userId: z.cuid(),

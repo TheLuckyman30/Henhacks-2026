@@ -9,6 +9,7 @@ import { ListingCard } from '#/components/ListingCard/ListingCard'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { PostingOut } from '@repo/db-types'
 import { fetcher } from '#/utils/fetcher'
+import { useUserStore } from '#/utils/user-store'
 
 export const Route = createFileRoute('/_protected-routes/listings/')({
   component: RouteComponent,
@@ -19,9 +20,9 @@ const CATEGORIES = ['Glass', 'Plastic', 'Fabric', 'Wood', 'Metal', 'Other']
 function RouteComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [category, setCategory] = useState(CATEGORIES[0])
-  const [zipcode, setZipcode] = useState('19711')
   const [radius, setRadius] = useState(10)
   const [available, setAvailable] = useState('All')
+  const { zipcode, setZipcode } = useUserStore()
   const qc = useQueryClient()
 
   const { data, isLoading } = useQuery<PostingOut[]>({

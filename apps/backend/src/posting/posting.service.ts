@@ -5,6 +5,7 @@ import {
   FindPostings,
   MyPostingOut,
   PostingOut,
+  SinglePostingOut,
 } from '@repo/db-types';
 import { encode } from '@aashari/nodejs-geocoding';
 
@@ -29,6 +30,38 @@ export class PostingService {
     const rad = 3958.8;
     const c = 2 * Math.asin(Math.sqrt(a));
     return rad * c;
+  }
+
+  async findPosting(id: string, zipcode: string): Promise<SinglePostingOut> {
+    const locationObj = await encode(zipcode);
+    const givenLocation = [
+      locationObj[0].latitude ?? 0,
+      locationObj[0].longitude ?? 0,
+    ];
+    const posting = await this.prisma.posting.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        user: { select: { id: true, name: true, email: true } },
+        title: true,
+        description: true,
+        location: true,
+        address: true,
+        status: true,
+        category: true,
+        tags: true,
+      },
+    });
+
+    if (!posting) {
+      throw new NotFoundException("Requested resource doesn't exist");
+    }
+
+    const { location, ...newPosting } = posting;
+    return {
+      ...newPosting,
+      distance: Math.ceil(this.calcDistance(location, givenLocation)),
+    };
   }
 
   async findPostingsInRange(
