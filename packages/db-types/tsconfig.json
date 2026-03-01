@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "rootDir": "src",
+    "esModuleInterop": true
+  },
+  "include": ["src"]
+}

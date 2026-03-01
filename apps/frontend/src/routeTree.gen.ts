@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MyProfileIndexRouteImport } from './routes/myProfile/index'
+import { Route as ListingsIndexRouteImport } from './routes/listings/index'
+import { Route as CreateListingIndexRouteImport } from './routes/createListing/index'
+import { Route as CommunityIndexRouteImport } from './routes/community/index'
+import { Route as ListingsListingIDRouteImport } from './routes/listings/$listingID'
+import { Route as CommunityEventListIDRouteImport } from './routes/community/$eventListID'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyProfileIndexRoute = MyProfileIndexRouteImport.update({
+  id: '/myProfile/',
+  path: '/myProfile/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ListingsIndexRoute = ListingsIndexRouteImport.update({
+  id: '/listings/',
+  path: '/listings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateListingIndexRoute = CreateListingIndexRouteImport.update({
+  id: '/createListing/',
+  path: '/createListing/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityIndexRoute = CommunityIndexRouteImport.update({
+  id: '/community/',
+  path: '/community/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ListingsListingIDRoute = ListingsListingIDRouteImport.update({
+  id: '/listings/$listingID',
+  path: '/listings/$listingID',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityEventListIDRoute = CommunityEventListIDRouteImport.update({
+  id: '/community/$eventListID',
+  path: '/community/$eventListID',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/community/$eventListID': typeof CommunityEventListIDRoute
+  '/listings/$listingID': typeof ListingsListingIDRoute
+  '/community/': typeof CommunityIndexRoute
+  '/createListing/': typeof CreateListingIndexRoute
+  '/listings/': typeof ListingsIndexRoute
+  '/myProfile/': typeof MyProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/community/$eventListID': typeof CommunityEventListIDRoute
+  '/listings/$listingID': typeof ListingsListingIDRoute
+  '/community': typeof CommunityIndexRoute
+  '/createListing': typeof CreateListingIndexRoute
+  '/listings': typeof ListingsIndexRoute
+  '/myProfile': typeof MyProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/community/$eventListID': typeof CommunityEventListIDRoute
+  '/listings/$listingID': typeof ListingsListingIDRoute
+  '/community/': typeof CommunityIndexRoute
+  '/createListing/': typeof CreateListingIndexRoute
+  '/listings/': typeof ListingsIndexRoute
+  '/myProfile/': typeof MyProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/community/$eventListID'
+    | '/listings/$listingID'
+    | '/community/'
+    | '/createListing/'
+    | '/listings/'
+    | '/myProfile/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/community/$eventListID'
+    | '/listings/$listingID'
+    | '/community'
+    | '/createListing'
+    | '/listings'
+    | '/myProfile'
+  id:
+    | '__root__'
+    | '/'
+    | '/community/$eventListID'
+    | '/listings/$listingID'
+    | '/community/'
+    | '/createListing/'
+    | '/listings/'
+    | '/myProfile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CommunityEventListIDRoute: typeof CommunityEventListIDRoute
+  ListingsListingIDRoute: typeof ListingsListingIDRoute
+  CommunityIndexRoute: typeof CommunityIndexRoute
+  CreateListingIndexRoute: typeof CreateListingIndexRoute
+  ListingsIndexRoute: typeof ListingsIndexRoute
+  MyProfileIndexRoute: typeof MyProfileIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/myProfile/': {
+      id: '/myProfile/'
+      path: '/myProfile'
+      fullPath: '/myProfile/'
+      preLoaderRoute: typeof MyProfileIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/listings/': {
+      id: '/listings/'
+      path: '/listings'
+      fullPath: '/listings/'
+      preLoaderRoute: typeof ListingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/createListing/': {
+      id: '/createListing/'
+      path: '/createListing'
+      fullPath: '/createListing/'
+      preLoaderRoute: typeof CreateListingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community/': {
+      id: '/community/'
+      path: '/community'
+      fullPath: '/community/'
+      preLoaderRoute: typeof CommunityIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/listings/$listingID': {
+      id: '/listings/$listingID'
+      path: '/listings/$listingID'
+      fullPath: '/listings/$listingID'
+      preLoaderRoute: typeof ListingsListingIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community/$eventListID': {
+      id: '/community/$eventListID'
+      path: '/community/$eventListID'
+      fullPath: '/community/$eventListID'
+      preLoaderRoute: typeof CommunityEventListIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CommunityEventListIDRoute: CommunityEventListIDRoute,
+  ListingsListingIDRoute: ListingsListingIDRoute,
+  CommunityIndexRoute: CommunityIndexRoute,
+  CreateListingIndexRoute: CreateListingIndexRoute,
+  ListingsIndexRoute: ListingsIndexRoute,
+  MyProfileIndexRoute: MyProfileIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
