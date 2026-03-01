@@ -184,8 +184,8 @@ function App() {
                   Reduce waste, support creativity, and strengthen your local
                   community.
                   <ul className="list-disc list-inside text-left mt-2">
-                    In-app event system:
-                    <li>Local swap meet announcements</li>
+                    In-app event system: Check out our scheduled Community “Swap
+                    Days” and events !<li>Local swap meet announcements</li>
                     <li>Park cleanup days</li> <li> Group events</li>
                     <li>Community garage exchanges</li>
                     <li>Adds offline social bonding.</li>
