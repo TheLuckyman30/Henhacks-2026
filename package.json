@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm run dev -w frontend"
+    "dev": "concurrently -n FRONTEND,BACKEND,DB,DB-TYPES -c red,green,yellow,blue \"npm run dev -w frontend\" \"npm run start:dev -w backend\" \"npm run dev -w @repo/database\" \"npm run dev -w @repo/db-types\"",
+    "db:generate": "npx prisma generate --schema ./packages/database/prisma/schema.prisma"
+  },
+  "prisma": {
+    "schema": "packages/database/prisma/schema.prisma"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.4.2"
+  }
 }
