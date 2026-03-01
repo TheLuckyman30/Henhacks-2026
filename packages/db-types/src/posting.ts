@@ -11,6 +11,7 @@ export const MyPostingOut = z.object({
   id: z.cuid(),
   title: z.string(),
   description: z.string(),
+  claimed: z.boolean(),
   createdAt: z.iso.datetime(),
 });
 export type MyPostingOut = z.infer<typeof MyPostingOut>;
@@ -20,8 +21,8 @@ export const PostingOut = z.object({
   user: UserOut,
   title: z.string(),
   description: z.string(),
-  location: z.string(),
   distance: z.int(),
+  claimed: z.boolean(),
   createdAt: z.iso.datetime(),
 });
 export type PostingOut = z.infer<typeof PostingOut>;
@@ -43,5 +44,6 @@ export const UpdatePosting = z.object({
   id: z.cuid(),
   title: z.string().optional(),
   description: z.string().optional(),
+  claimed: z.boolean().optional(),
 });
 export type UpdatePosting = z.infer<typeof UpdatePosting>;

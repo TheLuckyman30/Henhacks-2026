@@ -6,7 +6,6 @@ import {
   MyPostingOut,
   PostingOut,
 } from '@repo/db-types';
-import { decode } from '@aashari/nodejs-geocoding';
 
 @Injectable()
 export class PostingService {
@@ -17,7 +16,6 @@ export class PostingService {
     const long1 = coords1[1];
     let lat2 = coords2[0];
     const long2 = coords2[1];
-    console.log(lat1, long1);
     let dLat = ((lat2 - lat1) * Math.PI) / 180.0;
     let dLon = ((long2 - long1) * Math.PI) / 180.0;
 
@@ -29,7 +27,6 @@ export class PostingService {
       Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
     const rad = 3958.8;
     const c = 2 * Math.asin(Math.sqrt(a));
-    console.log(rad * c);
     return rad * c;
   }
 
@@ -42,6 +39,7 @@ export class PostingService {
         user: { select: { id: true, name: true } },
         title: true,
         description: true,
+        claimed: true,
         location: true,
         createdAt: true,
       },
@@ -61,19 +59,16 @@ export class PostingService {
       throw new NotFoundException('No postings in range!');
     }
 
-    return await Promise.all(
-      filteredPostings.map(async (p) => ({
-        ...p,
+    return filteredPostings.map((p) => {
+      const { location, ...newPosting } = p;
+      return {
+        ...newPosting,
         createdAt: p.createdAt.toISOString(),
-        location:
-          (await decode(p.location[0], p.location[1]).then(
-            (l) => l?.formatted_address,
-          )) ?? '',
         distance: Math.ceil(
-          this.calcDistance(p.location, findPostingsDto.location),
+          this.calcDistance(location, findPostingsDto.location),
         ),
-      })),
-    );
+      };
+    });
   }
 
   async createPosting(createPostingDto: CreatePosting): Promise<MyPostingOut> {
@@ -83,6 +78,7 @@ export class PostingService {
         id: true,
         title: true,
         description: true,
+        claimed: true,
         createdAt: true,
       },
     });
