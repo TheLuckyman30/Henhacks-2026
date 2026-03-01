@@ -6,6 +6,7 @@ import {
   MyPostingOut,
   PostingOut,
 } from '@repo/db-types';
+import { encode } from '@aashari/nodejs-geocoding';
 
 @Injectable()
 export class PostingService {
@@ -33,14 +34,22 @@ export class PostingService {
   async findPostingsInRange(
     findPostingsDto: FindPostings,
   ): Promise<PostingOut[]> {
+    const locationObj = await encode(findPostingsDto.zipcode);
+    const givenLocation = [
+      locationObj[0].latitude ?? 0,
+      locationObj[0].longitude ?? 0,
+    ];
     const postings = await this.prisma.posting.findMany({
       select: {
         id: true,
         user: { select: { id: true, name: true } },
         title: true,
         description: true,
-        claimed: true,
+        status: true,
         location: true,
+        address: true,
+        category: true,
+        tags: true,
         createdAt: true,
       },
     });
@@ -51,8 +60,8 @@ export class PostingService {
 
     const filteredPostings = postings.filter(
       (p) =>
-        this.calcDistance(p.location, findPostingsDto.location) <=
-        findPostingsDto.range,
+        this.calcDistance(p.location, givenLocation) <= 100 &&
+        p.status !== 'Completed',
     );
 
     if (!filteredPostings) {
@@ -64,21 +73,26 @@ export class PostingService {
       return {
         ...newPosting,
         createdAt: p.createdAt.toISOString(),
-        distance: Math.ceil(
-          this.calcDistance(location, findPostingsDto.location),
-        ),
+        distance: Math.ceil(this.calcDistance(location, givenLocation)),
       };
     });
   }
 
   async createPosting(createPostingDto: CreatePosting): Promise<MyPostingOut> {
+    const locationObj = await encode(createPostingDto.address);
+    const location = [
+      locationObj[0].latitude ?? 0,
+      locationObj[0].longitude ?? 0,
+    ];
     const newPosting = await this.prisma.posting.create({
-      data: createPostingDto,
+      data: { ...createPostingDto, location },
       select: {
         id: true,
         title: true,
         description: true,
-        claimed: true,
+        status: true,
+        category: true,
+        tags: true,
         createdAt: true,
       },
     });
